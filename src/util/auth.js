@@ -22,7 +22,7 @@ export function getAuthToken() {
 	return token;
 }
 
-export function setAuthToken(token) {
+export function saveAuthTokenLocally(token) {
 	localStorage.setItem('token', token);
 	const expiration = new Date();
 	expiration.setHours(expiration.getHours() + 1);
