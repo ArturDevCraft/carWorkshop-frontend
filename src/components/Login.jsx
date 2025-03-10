@@ -6,12 +6,12 @@ import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js';
 import Input from './Input.jsx';
 
 export default function Login() {
-	const [formState, formAction, isPending] = useActionState(loginHandler, {
+	const [formState, formAction, isPending] = useActionState(loginAction, {
 		errors: null,
 	});
 	const dispatch = useDispatch();
 
-	function loginHandler(prevFormState, formData) {
+	function loginAction(prevFormState, formData) {
 		let errors = { email: [], password: [] };
 
 		const email = formData.get('email');
