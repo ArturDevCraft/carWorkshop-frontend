@@ -12,7 +12,9 @@ function App() {
 	const userRole = useSelector((state) => state.auth.role);
 
 	useEffect(() => {
-		dispatch(getLoggedUserData());
+		if (token) {
+			dispatch(getLoggedUserData());
+		}
 	}, [token]);
 	return (
 		<>

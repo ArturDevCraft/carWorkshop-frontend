@@ -21,7 +21,7 @@ export const sendAuthData = (email, password) => {
 
 				if (response.status === 422 || response.status === 401) {
 					// saveAuthTokenLocally(null);
-					// return response;
+					return response;
 				}
 
 				if (!response.ok) {
@@ -68,7 +68,9 @@ export const getLoggedUserData = () => {
 
 		try {
 			const data = await getUserData();
-			dispatch(authActions.setUserCredentials(data));
+			dispatch(
+				authActions.setUserCredentials({ role: data.role, email: data.email })
+			);
 		} catch (error) {}
 	};
 };
