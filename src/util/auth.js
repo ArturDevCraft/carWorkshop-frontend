@@ -28,3 +28,8 @@ export function saveAuthTokenLocally(token) {
 	expiration.setHours(expiration.getHours() + 1);
 	localStorage.setItem('expiration', expiration.toISOString());
 }
+
+export function removeAuthTokenLocally() {
+	localStorage.removeItem('token');
+	localStorage.removeItem('expiration');
+}

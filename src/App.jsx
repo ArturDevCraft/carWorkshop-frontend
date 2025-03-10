@@ -1,12 +1,16 @@
 import './App.scss';
 import Login from './components/Login';
 import { useSelector } from 'react-redux';
+import LogoutButton from './components/LogoutButton';
 
 function App() {
-	// const isLoggedIn = useSelector()
+	const token = useSelector((state) => state.auth.token);
+
 	return (
 		<>
-			<Login />
+			{!token && <Login />}
+			{token && <p>You are logged in!</p>}
+			{token && <LogoutButton />}
 		</>
 	);
 }

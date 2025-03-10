@@ -1,5 +1,5 @@
 import { authActions } from './auth-slice';
-import { saveAuthTokenLocally } from '../util/auth';
+import { removeAuthTokenLocally, saveAuthTokenLocally } from '../util/auth';
 
 export const sendAuthData = (email, password) => {
 	return async (dispatch) => {
@@ -31,5 +31,12 @@ export const sendAuthData = (email, password) => {
 			saveAuthTokenLocally(token);
 			dispatch(authActions.setToken(token));
 		}
+	};
+};
+
+export const logout = () => {
+	return (dispatch) => {
+		removeAuthTokenLocally();
+		dispatch(authActions.setToken(false));
 	};
 };
