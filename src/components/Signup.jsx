@@ -18,33 +18,45 @@ export default function Signup() {
 	const dispatch = useDispatch();
 
 	async function signupAction(prevFormState, formData) {
-		let errors = { email: [], password: [], passwordConfirm: [], name: [] };
+		let errors = {
+			email: null,
+			password: null,
+			passwordConfirm: null,
+			name: null,
+			role: null,
+		};
 
 		const userData = {
 			email: formData.get('email'),
 			password: formData.get('password'),
 			passwordConfirm: formData.get('passwordConfirm'),
 			name: formData.get('name'),
+			role: formData.get('role'),
 		};
 
 		if (!isEmail(userData.email)) {
-			errors.email.push('Invalid email address.');
+			errors.email = 'Invalid email address.';
 		}
 
 		if (!isNotEmpty(userData.password) || !hasMinLength(userData.password, 6)) {
-			errors.password.push(
-				'You must provide a password with at least six characters.'
-			);
+			errors.password =
+				'You must provide a password with at least six characters.';
 		}
 		if (!isNotEmpty(userData.name) || !hasMinLength(userData.name, 2)) {
-			errors.name.push('You must provide a name.');
+			errors.name = 'You must provide a name.';
 		}
 
 		if (!isEqualToOtherValue(userData.password, userData.passwordConfirm)) {
-			errors.passwordConfirm.push('Passwords must be the same.');
+			errors.passwordConfirm = 'Passwords must be the same.';
 		}
 
-		if (errors.email.length > 0 || errors.password.length > 0) {
+		if (
+			errors.email !== null ||
+			errors.password !== null ||
+			errors.passwordConfirm !== null ||
+			errors.name !== null ||
+			errors.role !== null
+		) {
 			return { errors, enteredValues: userData };
 		}
 
@@ -52,9 +64,10 @@ export default function Signup() {
 			await dispatch(sendSignupData(userData));
 			return { errors: null };
 		} catch (err) {
-			errors.password.push('Invalid email or password.');
-			errors.email.push('Invalid email or password.');
-			return { errors, enteredValues: userData };
+			const errMsg = await err.json();
+			console.log(errMsg.errors.email);
+
+			return { errors: errMsg.errors, enteredValues: userData };
 		}
 	}
 	return (
@@ -90,7 +103,7 @@ export default function Signup() {
 					defaultValue={formState.enteredValues?.name}
 					errors={formState.errors?.name}
 				/>
-
+				{/* {formState.enteredValues?.role === 'customer' ? 'selected' : ''} */}
 				<select name="role" id="role">
 					<option value="customer">Customer</option>
 					<option value="workshop">Workshop administrator</option>

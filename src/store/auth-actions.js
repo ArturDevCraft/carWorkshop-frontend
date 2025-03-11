@@ -52,26 +52,27 @@ export const sendSignupData = (userData) => {
 		if (errors.length > 0) {
 			return { errors };
 		} else {
-			const getToken = async () => {
+			const registerNewUser = async () => {
 				const response = await fetch('http://localhost:5050/signup', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(userData),
 				});
 
-				if (response.status === 422 || response.status === 401) {
-					throw new Error('Could not add new user!');
+				if (
+					response.status === 422 ||
+					response.status === 401 ||
+					!response.ok
+				) {
+					// throw new Error('Could not add new user!');
+					throw response;
 				}
-
-				if (!response.ok) {
-					throw new Error('Could not add new user!');
-				}
-
 				const resData = await response.json();
 				return resData;
 			};
 
 			try {
+				await registerNewUser();
 				dispatch(uiActions.toggleLogin());
 			} catch (error) {
 				throw error;
