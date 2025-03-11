@@ -11,7 +11,7 @@ export default function Login() {
 	});
 	const dispatch = useDispatch();
 
-	function loginAction(prevFormState, formData) {
+	async function loginAction(prevFormState, formData) {
 		let errors = { email: [], password: [] };
 
 		const email = formData.get('email');
@@ -30,8 +30,15 @@ export default function Login() {
 		if (errors.email.length > 0 || errors.password.length > 0) {
 			return { errors, enteredValues: { email, password } };
 		}
-		dispatch(sendAuthData(email, password));
-		return { errors: null };
+
+		try {
+			await dispatch(sendAuthData(email, password));
+			return { errors: null };
+		} catch (err) {
+			errors.password.push('Invalid email or password.');
+			errors.email.push('Invalid email or password.');
+			return { errors, enteredValues: { email, password } };
+		}
 	}
 
 	return (

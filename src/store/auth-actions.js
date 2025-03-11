@@ -21,7 +21,8 @@ export const sendAuthData = (email, password) => {
 
 				if (response.status === 422 || response.status === 401) {
 					// saveAuthTokenLocally(null);
-					return response;
+					// return response;
+					throw new Error('Could not authenticate!');
 				}
 
 				if (!response.ok) {
@@ -36,7 +37,9 @@ export const sendAuthData = (email, password) => {
 				const token = await getToken();
 				saveAuthTokenLocally(token);
 				dispatch(authActions.setToken(token));
-			} catch (error) {}
+			} catch (error) {
+				throw error;
+			}
 		}
 	};
 };
