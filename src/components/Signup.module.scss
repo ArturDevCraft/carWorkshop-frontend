@@ -54,4 +54,12 @@
 			background-color: #730000;
 		}
 	}
+	.link {
+		color: #a30000;
+		cursor: pointer;
+		font-weight: 500;
+		&:hover {
+			color: #be4646;
+		}
+	}
 }

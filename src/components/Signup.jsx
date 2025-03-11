@@ -1,19 +1,18 @@
-import classes from './Login.module.scss';
+import classes from './Signup.module.scss';
 import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
 import { sendAuthData } from '../store/auth-actions';
 import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js';
 import Input from './Input.jsx';
-import { uiActions } from '../store/ui-slice.js';
 import SignupToggleButton from './SignupToggleButton.jsx';
 
-export default function Login() {
-	const [formState, formAction, isPending] = useActionState(loginAction, {
+export default function Signup() {
+	const [formState, formAction, isPending] = useActionState(signupAction, {
 		errors: null,
 	});
 	const dispatch = useDispatch();
 
-	async function loginAction(prevFormState, formData) {
+	async function signupAction(prevFormState, formData) {
 		let errors = { email: [], password: [] };
 
 		const email = formData.get('email');
@@ -42,10 +41,9 @@ export default function Login() {
 			return { errors, enteredValues: { email, password } };
 		}
 	}
-
 	return (
 		<div className={classes.login}>
-			<h2>Login to Car Repair Booking</h2>
+			<h2>Create new account</h2>
 			<form action={formAction} noValidate>
 				<Input
 					name="email"
@@ -68,8 +66,7 @@ export default function Login() {
 				</button>
 			</form>
 			<p>
-				Don't have an account?
-				<SignupToggleButton>Join us!</SignupToggleButton>
+				Do You have an account? <SignupToggleButton>Login!</SignupToggleButton>
 			</p>
 		</div>
 	);

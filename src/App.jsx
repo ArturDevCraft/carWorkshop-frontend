@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import LogoutButton from './components/LogoutButton';
 import { useEffect } from 'react';
 import { getLoggedUserData } from './store/auth-actions';
+import Signup from './components/Signup';
 
 function App() {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.auth.token);
 	const userEmail = useSelector((state) => state.auth.email);
 	const userRole = useSelector((state) => state.auth.role);
+	const isSignupVisible = useSelector((state) => state.ui.isSignupVisible);
 
 	useEffect(() => {
 		if (token) {
@@ -18,7 +20,8 @@ function App() {
 	}, [token]);
 	return (
 		<>
-			{!token && <Login />}
+			{!token && !isSignupVisible && <Login />}
+			{!token && isSignupVisible && <Signup />}
 			{token && (
 				<p>
 					Hello: {userEmail}, Your role is: {userRole}
