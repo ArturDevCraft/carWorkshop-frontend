@@ -1,7 +1,7 @@
 import classes from './Signup.module.scss';
 import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
-import { sendAuthData } from '../store/auth-actions';
+import { sendSignupData } from '../store/auth-actions';
 import {
 	isEmail,
 	isNotEmpty,
@@ -49,7 +49,7 @@ export default function Signup() {
 		}
 
 		try {
-			await dispatch(sendAuthData(email, password));
+			await dispatch(sendSignupData(userData));
 			return { errors: null };
 		} catch (err) {
 			errors.password.push('Invalid email or password.');

@@ -4,6 +4,7 @@ import {
 	removeAuthTokenLocally,
 	saveAuthTokenLocally,
 } from '../util/auth';
+import { uiActions } from './ui-slice';
 
 export const sendAuthData = (email, password) => {
 	return async (dispatch) => {
@@ -37,6 +38,41 @@ export const sendAuthData = (email, password) => {
 				const token = await getToken();
 				saveAuthTokenLocally(token);
 				dispatch(authActions.setToken(token));
+			} catch (error) {
+				throw error;
+			}
+		}
+	};
+};
+
+export const sendSignupData = (userData) => {
+	return async (dispatch) => {
+		let errors = [];
+
+		if (errors.length > 0) {
+			return { errors };
+		} else {
+			const getToken = async () => {
+				const response = await fetch('http://localhost:5050/signup', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(userData),
+				});
+
+				if (response.status === 422 || response.status === 401) {
+					throw new Error('Could not add new user!');
+				}
+
+				if (!response.ok) {
+					throw new Error('Could not add new user!');
+				}
+
+				const resData = await response.json();
+				return resData;
+			};
+
+			try {
+				dispatch(uiActions.toggleLogin());
 			} catch (error) {
 				throw error;
 			}
