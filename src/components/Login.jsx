@@ -14,19 +14,18 @@ export default function Login() {
 	const dispatch = useDispatch();
 
 	async function loginAction(prevFormState, formData) {
-		let errors = { email: [], password: [] };
+		let errors = { email: null, password: null };
 
 		const email = formData.get('email');
 		const password = formData.get('password');
 
 		if (!isEmail(email)) {
-			errors.email.push('Invalid email address.');
+			errors.email = 'Invalid email address.';
 		}
 
 		if (!isNotEmpty(password) || !hasMinLength(password, 6)) {
-			errors.password.push(
-				'You must provide a password with at least six characters.'
-			);
+			errors.password =
+				'You must provide a password with at least six characters.';
 		}
 
 		if (errors.email.length > 0 || errors.password.length > 0) {
@@ -37,8 +36,8 @@ export default function Login() {
 			await dispatch(sendAuthData(email, password));
 			return { errors: null };
 		} catch (err) {
-			errors.password.push('Invalid email or password.');
-			errors.email.push('Invalid email or password.');
+			errors.password = 'Invalid email or password.';
+			errors.email = 'Invalid email or password.';
 			return { errors, enteredValues: { email, password } };
 		}
 	}
