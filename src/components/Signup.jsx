@@ -10,13 +10,13 @@ import {
 } from '../util/validation.js';
 import Input from './Input.jsx';
 import SignupToggleButton from './SignupToggleButton.jsx';
+import Select from './Select.jsx';
 
 export default function Signup() {
 	const [formState, formAction, isPending] = useActionState(signupAction, {
 		errors: null,
 	});
 	const dispatch = useDispatch();
-
 	async function signupAction(prevFormState, formData) {
 		let errors = {
 			email: null,
@@ -33,7 +33,6 @@ export default function Signup() {
 			name: formData.get('name'),
 			role: formData.get('role'),
 		};
-
 		if (!isEmail(userData.email)) {
 			errors.email = 'Invalid email address.';
 		}
@@ -65,7 +64,6 @@ export default function Signup() {
 			return { errors: null };
 		} catch (err) {
 			const errMsg = await err.json();
-			console.log(errMsg.errors.email);
 
 			return { errors: errMsg.errors, enteredValues: userData };
 		}
@@ -103,11 +101,16 @@ export default function Signup() {
 					defaultValue={formState.enteredValues?.name}
 					errors={formState.errors?.name}
 				/>
-				{/* {formState.enteredValues?.role === 'customer' ? 'selected' : ''} */}
-				<select name="role" id="role">
-					<option value="customer">Customer</option>
-					<option value="workshop">Workshop administrator</option>
-				</select>
+
+				<Select
+					options={[
+						{ value: 'customer', text: 'Customer' },
+						{ value: 'workshop', text: 'Workshop administrator' },
+					]}
+					name="role"
+					defaultValue={formState.enteredValues?.role}
+					errors={formState.errors?.role}
+				/>
 
 				<button className={classes.button} type="submit">
 					SIGNUP
