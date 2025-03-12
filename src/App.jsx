@@ -1,10 +1,10 @@
 import './App.scss';
-import Login from './components/Login';
+import Login from './components/Layout/Login';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getLoggedUserData } from './store/auth-actions';
-import Signup from './components/Signup';
-import Notification from './components/Notification';
+import Signup from './components/Layout/Signup';
+import Notification from './components/UI/Notification';
 import CustomerLayout from './components/Layout/CustomerLayout';
 
 function App() {

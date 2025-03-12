@@ -1,17 +1,17 @@
 import classes from './Signup.module.scss';
 import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
-import { sendSignupData } from '../store/auth-actions';
+import { sendSignupData } from '../../store/auth-actions.js';
 import {
 	isEmail,
 	isNotEmpty,
 	hasMinLength,
 	isEqualToOtherValue,
-} from '../util/validation.js';
-import Input from './Input.jsx';
-import SignupToggleButton from './SignupToggleButton.jsx';
-import Select from './Select.jsx';
-import { uiActions } from '../store/ui-slice.js';
+} from '../../util/validation.js';
+import Input from '../UI/Input.jsx';
+import SignupToggleButton from '../UI/SignupToggleButton.jsx';
+import Select from '../UI/Select.jsx';
+import { uiActions } from '../../store/ui-slice.js';
 
 export default function Signup() {
 	const [formState, formAction, isPending] = useActionState(signupAction, {
@@ -76,7 +76,7 @@ export default function Signup() {
 			return { errors: errMsg.errors, enteredValues: userData };
 		}
 	}
-	
+
 	return (
 		<div className={classes.login}>
 			<h2>Create new account</h2>

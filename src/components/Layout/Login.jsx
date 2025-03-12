@@ -1,11 +1,11 @@
 import classes from './Login.module.scss';
 import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
-import { sendAuthData } from '../store/auth-actions';
-import { isEmail, isNotEmpty, hasMinLength } from '../util/validation.js';
-import Input from './Input.jsx';
-import { uiActions } from '../store/ui-slice.js';
-import SignupToggleButton from './SignupToggleButton.jsx';
+import { sendAuthData } from '../../store/auth-actions.js';
+import { isEmail, isNotEmpty, hasMinLength } from '../../util/validation.js';
+import Input from '../UI/Input.jsx';
+import { uiActions } from '../../store/ui-slice.js';
+import SignupToggleButton from '../UI/SignupToggleButton.jsx';
 
 export default function Login() {
 	const [formState, formAction, isPending] = useActionState(loginAction, {

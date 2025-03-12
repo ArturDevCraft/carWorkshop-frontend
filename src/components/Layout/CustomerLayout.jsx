@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
-import LogoutButton from '../LogoutButton';
+import LogoutButton from '../UI/LogoutButton';
 import classes from './CustomerLayout.module.scss';
 import Menu from './Menu';
-import MenuItem from './MenuItem';
+import MenuItem from '../UI/MenuItem';
 
 export default function CustomerLayout() {
 	const view = useSelector((state) => state.ui.selectedView);

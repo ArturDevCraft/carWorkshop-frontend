@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom';
 import classes from './Notification.module.scss';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { uiActions } from '../store/ui-slice';
+import { uiActions } from '../../store/ui-slice';
 
 export default function Notification({ onClose }) {
 	const dispatch = useDispatch();

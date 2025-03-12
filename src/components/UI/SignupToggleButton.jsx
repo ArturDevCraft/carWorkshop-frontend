@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { uiActions } from '../store/ui-slice';
+import { uiActions } from '../../store/ui-slice';
 import classes from './SignupToggleButton.module.scss';
 
 export default function SignupToggleButton({ children }) {
