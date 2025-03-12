@@ -1,11 +1,11 @@
 import './App.scss';
 import Login from './components/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import LogoutButton from './components/LogoutButton';
 import { useEffect } from 'react';
 import { getLoggedUserData } from './store/auth-actions';
 import Signup from './components/Signup';
 import Notification from './components/Notification';
+import CustomerLayout from './components/Layout/CustomerLayout';
 
 function App() {
 	const dispatch = useDispatch();
@@ -27,12 +27,7 @@ function App() {
 			{isNotificationVisible && <Notification />}
 			{!token && !isSignupVisible && <Login />}
 			{!token && isSignupVisible && <Signup />}
-			{token && (
-				<p>
-					Hello: {userEmail}, Your role is: {userRole}
-				</p>
-			)}
-			{token && <LogoutButton />}
+			{token && userRole === 'customer' && <CustomerLayout />}
 		</>
 	);
 }

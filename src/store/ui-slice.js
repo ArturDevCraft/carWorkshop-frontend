@@ -4,6 +4,7 @@ const initialState = {
 	isSignupVisible: false,
 	isNotificationVisible: false,
 	notificationContent: { title: null, msg: null },
+	selectedView: null,
 };
 
 const uiSlice = createSlice({
@@ -21,6 +22,9 @@ const uiSlice = createSlice({
 			state.isNotificationVisible = false;
 			state.notificationContent.title = null;
 			state.notificationContent.msg = null;
+		},
+		setSelectedView(state, action) {
+			state.selectedView = action.payload;
 		},
 	},
 });
