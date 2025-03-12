@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	isSignupVisible: false,
+	isNotificationVisible: false,
+	notificationContent: { title: null, msg: null },
 };
 
 const uiSlice = createSlice({
@@ -10,6 +12,15 @@ const uiSlice = createSlice({
 	reducers: {
 		toggleLogin(state) {
 			state.isSignupVisible = !state.isSignupVisible;
+		},
+		showNotification(state, action) {
+			state.isNotificationVisible = true;
+			state.notificationContent = action.payload;
+		},
+		hideNotification(state) {
+			state.isNotificationVisible = false;
+			state.notificationContent.title = null;
+			state.notificationContent.msg = null;
 		},
 	},
 });

@@ -11,12 +11,14 @@ import {
 import Input from './Input.jsx';
 import SignupToggleButton from './SignupToggleButton.jsx';
 import Select from './Select.jsx';
+import { uiActions } from '../store/ui-slice.js';
 
 export default function Signup() {
 	const [formState, formAction, isPending] = useActionState(signupAction, {
 		errors: null,
 	});
 	const dispatch = useDispatch();
+
 	async function signupAction(prevFormState, formData) {
 		let errors = {
 			email: null,
@@ -61,6 +63,12 @@ export default function Signup() {
 
 		try {
 			await dispatch(sendSignupData(userData));
+			dispatch(
+				uiActions.showNotification({
+					title: 'User created!',
+					msg: 'You can login',
+				})
+			);
 			return { errors: null };
 		} catch (err) {
 			const errMsg = await err.json();
@@ -68,6 +76,7 @@ export default function Signup() {
 			return { errors: errMsg.errors, enteredValues: userData };
 		}
 	}
+	
 	return (
 		<div className={classes.login}>
 			<h2>Create new account</h2>

@@ -13,6 +13,9 @@ function App() {
 	const userEmail = useSelector((state) => state.auth.email);
 	const userRole = useSelector((state) => state.auth.role);
 	const isSignupVisible = useSelector((state) => state.ui.isSignupVisible);
+	const isNotificationVisible = useSelector(
+		(state) => state.ui.isNotificationVisible
+	);
 
 	useEffect(() => {
 		if (token) {
@@ -21,7 +24,7 @@ function App() {
 	}, [token]);
 	return (
 		<>
-			<Notification title="Everything ok">Done</Notification>
+			{isNotificationVisible && <Notification />}
 			{!token && !isSignupVisible && <Login />}
 			{!token && isSignupVisible && <Signup />}
 			{token && (
