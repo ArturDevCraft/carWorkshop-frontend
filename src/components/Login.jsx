@@ -28,7 +28,7 @@ export default function Login() {
 				'You must provide a password with at least six characters.';
 		}
 
-		if (errors.email.length > 0 || errors.password.length > 0) {
+		if (errors.email !== null || errors.password !== null) {
 			return { errors, enteredValues: { email, password } };
 		}
 

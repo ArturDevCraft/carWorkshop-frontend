@@ -5,6 +5,7 @@ import LogoutButton from './components/LogoutButton';
 import { useEffect } from 'react';
 import { getLoggedUserData } from './store/auth-actions';
 import Signup from './components/Signup';
+import Notification from './components/Notification';
 
 function App() {
 	const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
 	}, [token]);
 	return (
 		<>
+			<Notification title="Everything ok">Done</Notification>
 			{!token && !isSignupVisible && <Login />}
 			{!token && isSignupVisible && <Signup />}
 			{token && (
