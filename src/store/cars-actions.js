@@ -44,9 +44,9 @@ export const sendCarData = (carData) => {
 
 export const getCarsData = () => {
 	return async (dispatch) => {
-		const getUserData = async () => {
+		const getCarsData = async () => {
 			const token = getAuthToken();
-			const response = await fetch('http://localhost:5050/user', {
+			const response = await fetch('http://localhost:5050/getCars', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -61,18 +61,16 @@ export const getCarsData = () => {
 			}
 
 			if (!response.ok) {
-				throw new Error('Could not got logged user data!');
+				throw new Error('Could not got cars data!');
 			}
 
 			const resData = await response.json();
-			return resData.loggedUserData;
+			return resData.data;
 		};
 
 		try {
-			const data = await getUserData();
-			dispatch(
-				authActions.setUserCredentials({ role: data.role, email: data.email })
-			);
+			const data = await getCarsData();
+			dispatch(carsActions.setCarData(data));
 		} catch (error) {}
 	};
 };

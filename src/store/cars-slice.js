@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	carData: null,
+	carsData: [],
 };
 const carsSlice = createSlice({
 	name: 'cars',
 	initialState,
 	reducers: {
 		setCarData(state, action) {
-			state.carData = action.payload;
+			state.carsData = action.payload;
 		},
 	},
 });

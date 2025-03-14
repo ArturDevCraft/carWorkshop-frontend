@@ -1,8 +1,8 @@
 import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
 import Input from '../UI/Input';
-import { isNotEmpty } from '../../util/validation';
-import { sendCarData } from '../../store/cars-actions';
+import { hasMinLength, isNotEmpty } from '../../util/validation';
+import { getCarsData, sendCarData } from '../../store/cars-actions';
 import { uiActions } from '../../store/ui-slice';
 
 export default function NewCar() {
@@ -31,8 +31,8 @@ export default function NewCar() {
 		if (!isNotEmpty(carData.model)) {
 			errors.model = 'You must provide model';
 		}
-		if (!isNotEmpty(carData.vin)) {
-			errors.vin = 'You must provide vin';
+		if (!hasMinLength(carData.vin, 17)) {
+			errors.vin = 'Vin must have 17 characters';
 		}
 
 		if (errors.make !== null || errors.model !== null || errors.vin !== null) {
@@ -47,6 +47,8 @@ export default function NewCar() {
 					msg: 'You can add new repair',
 				})
 			);
+			dispatch(getCarsData());
+			//get new cars from backend
 			return { errors: null };
 		} catch (err) {
 			const errMsg = await err.json();
