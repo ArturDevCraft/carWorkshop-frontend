@@ -3,6 +3,7 @@ import LogoutButton from '../UI/LogoutButton';
 import classes from './CustomerLayout.module.scss';
 import Menu from './Menu';
 import MenuItem from '../UI/MenuItem';
+import NewCar from '../Customer/NewCar';
 
 export default function CustomerLayout() {
 	const view = useSelector((state) => state.ui.selectedView);
@@ -20,6 +21,7 @@ export default function CustomerLayout() {
 				<header></header>
 				<section>
 					{view === 'myCars' && <p>Cars</p>}
+					<NewCar />
 					<h2>hello customer</h2>
 				</section>
 			</main>

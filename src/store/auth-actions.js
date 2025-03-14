@@ -18,7 +18,7 @@ export const sendAuthData = (email, password) => {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ email, password }),
-				});
+				}); 
 
 				if (response.status === 422 || response.status === 401) {
 					// saveAuthTokenLocally(null);
@@ -94,7 +94,8 @@ export const getLoggedUserData = () => {
 			});
 
 			if (response.status === 422 || response.status === 401) {
-				// saveAuthTokenLocally(null);
+				dispatch(logout());
+				// throw new Error('Could not got logged user data!');
 				return response;
 			}
 
