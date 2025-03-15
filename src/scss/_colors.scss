@@ -1,12 +1,16 @@
 $main: #a30000;
+$main-darker: darken($main, 8%);
+$main-lighter: lighten($main, 5%);
 $secondary: #0067a3;
 $background-main: #292929;
 $background-secondary: #4f4f4f;
 $background-lighter: #808080;
 $font-dark: $background-main;
 $font-light: $background-lighter;
+$font-lighter: lighten($background-lighter, 40%);
 
 $error-bckg: #ffb0b0;
+$error-font: #a30000;
 
 $active-border: $main;
 $hover-border: $secondary;

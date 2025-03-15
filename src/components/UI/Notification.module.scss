@@ -1,3 +1,4 @@
+@use '../../scss/colors' as color;
 .modal {
 	margin: 0;
 	padding: 1.5rem 2rem;
@@ -36,10 +37,10 @@
 		button {
 			margin-top: 2rem;
 			padding: 1rem 2rem;
-			background-color: #a30000;
+			background-color: color.$main;
 			border-radius: 0.5rem;
 			border: none;
-			color: #fff;
+			color: color.$font-lighter;
 			font-weight: 600;
 			cursor: pointer;
 		}

@@ -1,5 +1,6 @@
+@use '../../scss/colors' as color;
 .errBox {
-	color: #de4343;
+	color: color.$error-font;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;

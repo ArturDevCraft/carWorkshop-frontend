@@ -1,11 +1,14 @@
+@use '../../scss/colors' as color;
 .link {
-	color: #a30000;
+	color: color.$main;
 	background: none;
 	border: none;
 	cursor: pointer;
 	font-weight: 500;
 	font-size: 1em;
+	transition: 0.3s color, 0.3s transform;
 	&:hover {
-		color: #be4646;
+		color: color.$main-lighter;
+		transform: scale(1.1);
 	}
 }

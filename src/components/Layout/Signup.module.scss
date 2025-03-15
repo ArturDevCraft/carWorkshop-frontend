@@ -1,6 +1,10 @@
+@use '../../scss/colors' as color;
+
 .login {
 	width: 45rem;
-	background-color: #1e1e1e;
+	background-color: color.$background-main;
+	color: color.$font-light;
+	text-align: center;
 	padding: 2rem 2.9rem;
 	position: absolute;
 	top: 40%;
@@ -8,7 +12,7 @@
 	transform: translate(-50%, -50%);
 
 	h2 {
-		background-color: #1e1e1e;
+		background-color: color.$background-main;
 		position: relative;
 		display: inline-block;
 		padding: 0 2rem;
@@ -20,13 +24,9 @@
 	form {
 		display: flex;
 		flex-direction: column;
-		border: 1px solid #403f3f;
+		border: 1px solid color.$background-secondary;
 		padding: 3rem 3rem 2rem 3rem;
 		margin-bottom: 2.5rem;
-	}
-	label {
-		margin-bottom: -2rem;
-		color: #000;
 	}
 
 	input {
@@ -50,25 +50,17 @@
 	.button {
 		margin: 1rem 0;
 		padding: 1.5rem;
-		background-color: #a30000;
+		background-color: color.$main;
 		border-radius: 0.5rem;
 		border: none;
-		color: #fff;
+		color: color.$font-lighter;
 		font-weight: 600;
 		font-size: 1.6rem;
 		cursor: pointer;
 		transition: background-color 0.3s;
 
 		&:hover {
-			background-color: #730000;
-		}
-	}
-	.link {
-		color: #a30000;
-		cursor: pointer;
-		font-weight: 500;
-		&:hover {
-			color: #be4646;
+			background-color: color.$main-darker;
 		}
 	}
 }
