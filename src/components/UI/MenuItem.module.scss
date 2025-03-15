@@ -1,17 +1,19 @@
+@use '../../scss/colors' as colors;
 .item {
-	border-bottom: 1px solid #1a1a1a;
+	border-bottom: 1px solid colors.$border-dark;
 
 	&:first-child {
-		border-top: 1px solid #1a1a1a;
+		border-top: 1px solid colors.$border-dark;
 	}
 
 	&.active {
 		a {
-			border-left: 5px solid #a30000;
+			border-left: 5px solid colors.$active-border;
 		}
 	}
 
 	a {
+		color: colors.$font-light;
 		cursor: pointer;
 		display: block;
 		padding: 2rem 2.5rem;
@@ -19,8 +21,8 @@
 		border-left: 5px solid transparent;
 		transition: 0.3s background-color;
 		&:hover {
-			background-color: #4f4f4f;
-			border-left: 5px solid #0067a3;
+			background-color: colors.$hover-menu-bckg;
+			border-left: 5px solid colors.$hover-border;
 		}
 		.icon {
 			font-size: 2.8rem;

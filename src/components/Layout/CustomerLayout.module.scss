@@ -1,5 +1,8 @@
+@use '../../scss/colors' as colors;
 .content {
-	display: flex;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto 1fr;
 	flex-direction: row;
 	height: 100dvh;
 	justify-content: stretch;
@@ -7,9 +10,10 @@
 		text-align: left;
 	}
 	main {
-		padding: 2.5rem;
-        h2 {
-            
-        }
+		section {
+			padding: 2.5rem;
+			h2 {
+			}
+		}
 	}
 }

@@ -12,8 +12,9 @@ export default function CustomerLayout() {
 	return (
 		<>
 			<div className={classes.content}>
+				<Header darkblue></Header>
+				<Header></Header>
 				<aside>
-					<Header></Header>
 					<Menu>
 						<MenuItem view="myCars" text="My cars">
 							<i className="fa-solid fa-car"></i>
@@ -28,8 +29,6 @@ export default function CustomerLayout() {
 					</Menu>
 				</aside>
 				<main>
-					<Header></Header>
-
 					<section>
 						{view === 'myCars' && (
 							<>

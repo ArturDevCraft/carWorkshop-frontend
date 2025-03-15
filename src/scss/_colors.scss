@@ -1,0 +1,15 @@
+$main: #a30000;
+$secondary: #0067a3;
+$background-main: #292929;
+$background-secondary: #4f4f4f;
+$background-lighter: #808080;
+$font-dark: $background-main;
+$font-light: $background-lighter;
+
+$active-border: $main;
+$hover-border: $secondary;
+$hover-menu-bckg: $background-secondary;
+$menu-bckg: $background-main;
+$header-bckg: $secondary;
+$header-bckg-darker: darken($secondary, 5%);
+$border-dark: darken($background-main, 10%);

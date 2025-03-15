@@ -1,5 +1,9 @@
+@use '../../scss/colors' as colors;
 .header {
 	padding: 2.5rem;
 	min-height: 20px;
-	background-color: #0067a3;
+	background-color: colors.$header-bckg;
+	&.darkblue {
+		background-color: colors.$header-bckg-darker;
+	}
 }
