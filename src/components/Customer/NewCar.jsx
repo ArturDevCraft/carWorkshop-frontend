@@ -4,7 +4,7 @@ import Input from '../UI/Input';
 import { hasMinLength, isNotEmpty } from '../../util/validation';
 import { getCarsData, sendCarData } from '../../store/cars-actions';
 import { uiActions } from '../../store/ui-slice';
-
+import classses from './NewCar.module.scss';
 export default function NewCar() {
 	const [formState, formAction] = useActionState(actionHandler, {
 		errors: null,
@@ -60,7 +60,7 @@ export default function NewCar() {
 	return (
 		<>
 			<h2>Add new car</h2>
-			<form action={formAction}>
+			<form action={formAction} className={classses.form}>
 				<Input
 					name="make"
 					type="text"

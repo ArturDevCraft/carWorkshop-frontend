@@ -1,0 +1,27 @@
+@use '../../scss/colors' as color;
+.form {
+	margin-bottom: 2rem;
+	input {
+		padding: 1rem;
+		margin: 1rem 0.5rem;
+		border-radius: 0.5rem;
+		border: none;
+		font-weight: 600;
+		font-size: 1.6rem;
+	}
+	button {
+		margin: 1rem 0.5rem;
+		font-size: 1.6rem;
+		font-weight: 800;
+		padding: 1rem 2rem;
+		border: none;
+		border-radius: 0.5rem;
+		background-color: color.$background-secondary;
+		color: color.$font-dark;
+		transition: 0.3s background-color;
+		cursor: pointer;
+		&:hover {
+			background-color: color.$secondary;
+		}
+	}
+}
