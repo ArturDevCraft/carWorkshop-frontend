@@ -10,6 +10,9 @@ export default function Cars() {
 	useEffect(() => {
 		dispatch(getCarsData());
 	}, []);
+
+	const deleteHandler = (id) => {};
+	const editHandler = (id) => {};
 	return (
 		<>
 			<h2>Your Cars</h2>
@@ -23,7 +26,18 @@ export default function Cars() {
 							<p className={classes.vin}>VIN: {car.vin}</p>
 						</div>
 						<div className={classes.back}>
-							
+							<button
+								className={classes.actionBtn}
+								onClick={() => deleteHandler(car._id)}
+							>
+								Delete
+							</button>
+							<button
+								className={classes.actionBtn}
+								onClick={() => editHandler(car._id)}
+							>
+								Edit
+							</button>
 						</div>
 					</div>
 				))}
