@@ -42,7 +42,7 @@ export default function NewCar() {
 		}
 
 		try {
-			await dispatch(sendCarData(carData));
+			await sendCarData(carData);
 			dispatch(
 				uiActions.showNotification({
 					title: 'Car added!',

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCarsData } from '../../store/cars-actions';
+import { deleteCar, getCarsData } from '../../store/cars-actions';
 import classes from './Cars.module.scss';
 import NewCar from './NewCar';
 
@@ -11,7 +11,18 @@ export default function Cars() {
 		dispatch(getCarsData());
 	}, []);
 
-	const deleteHandler = (id) => {};
+	const deleteHandler = async (id) => {
+		try {
+			await deleteCar(id);
+
+			dispatch(getCarsData());
+			//get new cars from backend
+		} catch (err) {
+			const errMsg = await err.json();
+
+			return { errors: errMsg.errors };
+		}
+	};
 	const editHandler = (id) => {};
 	return (
 		<>
