@@ -9,17 +9,25 @@ import Cars from '../Customer/Cars';
 export default function CustomerLayout() {
 	const view = useSelector((state) => state.ui.selectedView);
 	return (
-		<div>
+		<div className={classes.content}>
 			<aside>
 				<Menu>
-					<MenuItem view="myCars">My Cars</MenuItem>
-					<MenuItem view="myRepairs">My Repairs</MenuItem>
-					<MenuItem view="myAccount">Account</MenuItem>
+					<MenuItem view="myCars" text="My cars">
+						<i className="fa-solid fa-car"></i>
+					</MenuItem>
+					<MenuItem view="myRepairs" text="My Repairs">
+						<i className="fa-solid fa-screwdriver-wrench"></i>
+					</MenuItem>
+					<MenuItem view="myAccount" text="Account">
+						<i className="fa-regular fa-user"></i>
+					</MenuItem>
 					<LogoutButton />
 				</Menu>
 			</aside>
 			<main>
-				<header></header>
+				<header>
+					<h2>hello customer</h2>
+				</header>
 				<section>
 					{view === 'myCars' && (
 						<>
@@ -27,8 +35,6 @@ export default function CustomerLayout() {
 							<Cars />
 						</>
 					)}
-
-					<h2>hello customer</h2>
 				</section>
 			</main>
 		</div>
