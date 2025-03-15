@@ -1,4 +1,4 @@
-import { useActionState } from 'react';
+import { useActionState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import Input from '../UI/Input';
 import { hasMinLength, isNotEmpty } from '../../util/validation';
@@ -9,6 +9,8 @@ export default function NewCar() {
 	const [formState, formAction] = useActionState(actionHandler, {
 		errors: null,
 	});
+
+	const dialog = useRef();
 
 	const dispatch = useDispatch();
 
@@ -49,6 +51,7 @@ export default function NewCar() {
 			);
 			dispatch(getCarsData());
 			//get new cars from backend
+			dialog.current.close();
 			return { errors: null };
 		} catch (err) {
 			const errMsg = await err.json();
@@ -57,33 +60,53 @@ export default function NewCar() {
 		}
 	}
 
+	const openDialog = () => {
+		dialog.current.showModal();
+	};
+	const closeDialog = () => {
+		dialog.current.close();
+	};
+
 	return (
 		<>
-			<h2>Add new car</h2>
-			<form action={formAction} className={classses.form}>
-				<Input
-					name="make"
-					type="text"
-					placeholder="Make"
-					defaultValue={formState.enteredValues?.make}
-					errors={formState.errors?.make}
-				/>
-				<Input
-					name="model"
-					type="text"
-					placeholder="Model"
-					defaultValue={formState.enteredValues?.model}
-					errors={formState.errors?.model}
-				/>
-				<Input
-					name="vin"
-					type="text"
-					placeholder="VIN"
-					defaultValue={formState.enteredValues?.vin}
-					errors={formState.errors?.vin}
-				/>
-				<button type="submit">Add</button>
-			</form>
+			<button className={classses.newBtn} onClick={openDialog}>
+				<p className={classses.icon}>
+					<i className="fa-solid fa-plus"></i>
+				</p>
+				<p className={classses.text}>Add New Car</p>
+			</button>
+			<dialog ref={dialog} className={classses.dialog}>
+				<a className={classses.closeBtn} onClick={closeDialog}>
+					x
+				</a>
+				<h2>Add new car</h2>
+				<form action={formAction} className={classses.form}>
+					<Input
+						name="make"
+						type="text"
+						placeholder="Make"
+						defaultValue={formState.enteredValues?.make}
+						errors={formState.errors?.make}
+					/>
+					<Input
+						name="model"
+						type="text"
+						placeholder="Model"
+						defaultValue={formState.enteredValues?.model}
+						errors={formState.errors?.model}
+					/>
+					<Input
+						name="vin"
+						type="text"
+						placeholder="VIN"
+						defaultValue={formState.enteredValues?.vin}
+						errors={formState.errors?.vin}
+					/>
+					<p className={classses.action}>
+						<button type="submit">Add</button>
+					</p>
+				</form>
+			</dialog>
 		</>
 	);
 }

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCarsData } from '../../store/cars-actions';
 import classes from './Cars.module.scss';
+import NewCar from './NewCar';
 
 export default function Cars() {
 	const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export default function Cars() {
 						<p className={classes.vin}>VIN: {car.vin}</p>
 					</div>
 				))}
+				<NewCar />
 			</div>
 		</>
 	);

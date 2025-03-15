@@ -32,7 +32,6 @@ export default function CustomerLayout() {
 					<section>
 						{view === 'myCars' && (
 							<>
-								<NewCar />
 								<Cars />
 							</>
 						)}
