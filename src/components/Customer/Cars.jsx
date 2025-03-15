@@ -12,14 +12,19 @@ export default function Cars() {
 	}, []);
 	return (
 		<>
-			<h2>Your cars:</h2>
+			<h2>Your Cars</h2>
 			<div className={classes.container}>
 				{cars.map((car) => (
-					<div className={classes.cart} key={car._id}>
-						<p className={classes.make}>
-							{car.make} {car.model}
-						</p>
-						<p className={classes.vin}>VIN: {car.vin}</p>
+					<div className={classes.card} key={car._id}>
+						<div className={classes.front}>
+							<p className={classes.make}>
+								{car.make} {car.model}
+							</p>
+							<p className={classes.vin}>VIN: {car.vin}</p>
+						</div>
+						<div className={classes.back}>
+							
+						</div>
 					</div>
 				))}
 				<NewCar />
