@@ -8,11 +8,15 @@ import Header from './Header';
 
 export default function CustomerLayout() {
 	const view = useSelector((state) => state.ui.selectedView);
+
+
 	return (
 		<>
 			<div className={classes.content}>
 				<Header darkblue></Header>
-				<Header></Header>
+				<Header>
+
+				</Header>
 				<aside>
 					<Menu>
 						<MenuItem view="myCars" text="My cars">
