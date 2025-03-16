@@ -4,6 +4,7 @@ import { getCarsData } from '../../store/cars-actions';
 import classes from './Cars.module.scss';
 import NewCar from './NewCar';
 import DeleteCarButton from './DeleteCarButton';
+import EditCar from './EditCar';
 
 export default function Cars() {
 	const dispatch = useDispatch();
@@ -27,12 +28,7 @@ export default function Cars() {
 						</div>
 						<div className={classes.back}>
 							<DeleteCarButton carId={car._id} />
-							<button
-								className={classes.actionBtn}
-								onClick={() => editHandler(car._id)}
-							>
-								Edit
-							</button>
+							<EditCar carData={car} />
 						</div>
 					</div>
 				))}

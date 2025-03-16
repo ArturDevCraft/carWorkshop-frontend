@@ -35,6 +35,40 @@ export const sendCarData = async (carData) => {
 	}
 };
 
+export const updateCarData = async (carData) => {
+	let errors = [];
+
+	if (errors.length > 0) {
+		return { errors };
+	} else {
+		const updateCar = async () => {
+			const token = getAuthToken();
+			const response = await fetch('http://localhost:5050/updatecar', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + token,
+				},
+				body: JSON.stringify(carData),
+			});
+
+			if (response.status === 422 || response.status === 401 || !response.ok) {
+				// throw new Error('Could not add new user!');
+				throw response;
+			}
+
+			const resData = await response.json();
+			return resData;
+		};
+
+		try {
+			await updateCar();
+		} catch (error) {
+			throw error;
+		}
+	}
+};
+
 export const getCarsData = () => {
 	return async (dispatch) => {
 		const getCarsData = async () => {
