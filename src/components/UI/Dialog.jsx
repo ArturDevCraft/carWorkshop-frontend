@@ -13,15 +13,17 @@ export default function Dialog({
 	const dialog = useRef();
 
 	const handleConfirm = () => {
-		onConfirm();
+		onConfirm && onConfirm();
+		dialog.current.close();
 	};
 
 	const handleReject = () => {
-		onReject();
+		onReject && onReject();
+		dialog.current.close();
 	};
 	const closeDialog = () => {
 		dialog.current.close();
-		onClose();
+		onClose && onClose();
 	};
 
 	useEffect(() => {
@@ -36,14 +38,14 @@ export default function Dialog({
 
 	return createPortal(
 		<dialog ref={dialog} className={classes.dialog}>
-			<a className={classes.closeBtn} onClick={closeDialog}>
-				x
-			</a>
+			<p className={classes.closeBtn}>
+				<a onClick={closeDialog}>x</a>
+			</p>
 			{children}
-			{type === 'confirmation' && (
+			{type === 'confirm' && (
 				<p className={classes.action}>
 					<button onClick={handleConfirm}>Ok</button>
-					<button onClickl={handleReject}>Cancel</button>
+					<button onClick={handleReject}>Cancel</button>
 				</p>
 			)}
 

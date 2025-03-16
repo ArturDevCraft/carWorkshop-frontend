@@ -8,7 +8,7 @@
 	border-radius: 1rem;
 	border: none;
 	box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-	padding: 2rem;
+	padding: 0rem 2rem 2rem 2rem;
 	z-index: 100;
 	&[open] {
 		animation: slide 0.5s ease-in forwards;
@@ -45,14 +45,14 @@
 }
 
 .closeBtn {
-	position: absolute;
-	display: block;
-	right: 1rem;
-	top: 1rem;
-	font-size: 2rem;
-	font-weight: 800;
-	cursor: pointer;
-	padding: 1rem;
+	text-align: right;
+	a {
+		margin-right: -2rem;
+		font-size: 2rem;
+		font-weight: 800;
+		cursor: pointer;
+		padding: 1rem;
+	}
 }
 
 @keyframes slide {

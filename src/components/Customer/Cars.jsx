@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCar, getCarsData } from '../../store/cars-actions';
+import { getCarsData } from '../../store/cars-actions';
 import classes from './Cars.module.scss';
 import NewCar from './NewCar';
+import DeleteCarButton from './DeleteCarButton';
 
 export default function Cars() {
 	const dispatch = useDispatch();
@@ -11,18 +12,6 @@ export default function Cars() {
 		dispatch(getCarsData());
 	}, []);
 
-	const deleteHandler = async (id) => {
-		try {
-			await deleteCar(id);
-
-			dispatch(getCarsData());
-			//get new cars from backend
-		} catch (err) {
-			const errMsg = await err.json();
-
-			return { errors: errMsg.errors };
-		}
-	};
 	const editHandler = (id) => {};
 	return (
 		<>
@@ -37,12 +26,7 @@ export default function Cars() {
 							<p className={classes.vin}>VIN: {car.vin}</p>
 						</div>
 						<div className={classes.back}>
-							<button
-								className={classes.actionBtn}
-								onClick={() => deleteHandler(car._id)}
-							>
-								Delete
-							</button>
+							<DeleteCarButton carId={car._id} />
 							<button
 								className={classes.actionBtn}
 								onClick={() => editHandler(car._id)}

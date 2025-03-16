@@ -3,7 +3,6 @@ import LogoutButton from '../UI/LogoutButton';
 import classes from './CustomerLayout.module.scss';
 import Menu from './Menu';
 import MenuItem from '../UI/MenuItem';
-import NewCar from '../Customer/NewCar';
 import Cars from '../Customer/Cars';
 import Header from './Header';
 
