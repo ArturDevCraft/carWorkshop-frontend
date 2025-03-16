@@ -1,8 +1,9 @@
 @use '../../scss/colors' as colors;
 .header {
-	padding: 2.5rem;
+	padding: 1.5rem 2.5rem;
 	min-height: 20px;
 	background-color: colors.$header-bckg;
+	color: colors.$font-lighter;
 	&.darkblue {
 		background-color: colors.$header-bckg-darker;
 	}

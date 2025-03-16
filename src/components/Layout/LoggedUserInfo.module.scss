@@ -1,0 +1,24 @@
+.container {
+	display: flex;
+	align-items: center;
+	gap: 0.3em;
+}
+.icon {
+	font-size: 1.5em;
+}
+
+.email {
+	font-weight: bold;
+}
+
+.name {
+	font-weight: bold;
+}
+.role {
+}
+
+.separator {
+	&::before {
+		content: '|';
+	}
+}

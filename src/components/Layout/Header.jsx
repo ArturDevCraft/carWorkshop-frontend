@@ -1,8 +1,8 @@
 import classes from './Header.module.scss';
-export default function Header({ darkblue }) {
+export default function Header({ darkblue, children }) {
 	return (
-		<header
-			className={`${classes.header} ${darkblue && classes.darkblue}`}
-		></header>
+		<header className={`${classes.header} ${darkblue && classes.darkblue}`}>
+			{children}
+		</header>
 	);
 }

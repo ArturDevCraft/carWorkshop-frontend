@@ -5,17 +5,17 @@ import Menu from './Menu';
 import MenuItem from '../UI/MenuItem';
 import Cars from '../Customer/Cars';
 import Header from './Header';
+import LoggedUserInfo from './LoggedUserInfo';
 
 export default function CustomerLayout() {
 	const view = useSelector((state) => state.ui.selectedView);
-
 
 	return (
 		<>
 			<div className={classes.content}>
 				<Header darkblue></Header>
 				<Header>
-
+					<LoggedUserInfo />
 				</Header>
 				<aside>
 					<Menu>
