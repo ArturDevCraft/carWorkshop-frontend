@@ -13,7 +13,6 @@ export default function Cars() {
 		dispatch(getCarsData());
 	}, []);
 
-	const editHandler = (id) => {};
 	return (
 		<>
 			<h2>Your Cars</h2>

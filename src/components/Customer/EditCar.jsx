@@ -44,14 +44,14 @@ export default function EditCar({ carData, carId }) {
 
 		try {
 			await updateCarData(carData, carId);
-			dispatch(getCarsData());
-			setDialogIsOpen(false);
-			return { errors: null };
 		} catch (err) {
 			const errMsg = await err.json();
 
 			return { errors: errMsg.errors, enteredValues: carData };
 		}
+		setDialogIsOpen(false);
+		dispatch(getCarsData());
+		return { errors: null, enteredValues: carData };
 	}
 
 	const openDialog = () => {
