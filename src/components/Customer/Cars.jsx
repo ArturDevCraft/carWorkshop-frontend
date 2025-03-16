@@ -28,7 +28,7 @@ export default function Cars() {
 						</div>
 						<div className={classes.back}>
 							<DeleteCarButton carId={car._id} />
-							<EditCar carData={car} />
+							<EditCar carData={car} carId={car._id} />
 						</div>
 					</div>
 				))}

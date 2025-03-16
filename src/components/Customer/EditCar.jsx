@@ -6,7 +6,7 @@ import { getCarsData, updateCarData } from '../../store/cars-actions';
 import classses from './NewCar.module.scss';
 import Dialog from '../UI/Dialog';
 
-export default function EditCar({ carData }) {
+export default function EditCar({ carData, carId }) {
 	const [dialogIsOpen, setDialogIsOpen] = useState(false);
 	const [formState, formAction] = useActionState(actionHandler, {
 		enteredValues: carData,
@@ -43,7 +43,7 @@ export default function EditCar({ carData }) {
 		}
 
 		try {
-			await updateCarData(carData);
+			await updateCarData(carData, carId);
 			dispatch(getCarsData());
 			setDialogIsOpen(false);
 			return { errors: null };

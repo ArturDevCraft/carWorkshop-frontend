@@ -35,7 +35,7 @@ export const sendCarData = async (carData) => {
 	}
 };
 
-export const updateCarData = async (carData) => {
+export const updateCarData = async (carData, carId) => {
 	let errors = [];
 
 	if (errors.length > 0) {
@@ -43,7 +43,7 @@ export const updateCarData = async (carData) => {
 	} else {
 		const updateCar = async () => {
 			const token = getAuthToken();
-			const response = await fetch('http://localhost:5050/updatecar', {
+			const response = await fetch('http://localhost:5050/updatecar/' + carId, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
