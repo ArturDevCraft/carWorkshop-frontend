@@ -31,18 +31,4 @@
 	.content {
 		padding: 2rem 0 0 0;
 	}
-	.action {
-		text-align: right;
-
-		button {
-			margin-top: 2rem;
-			padding: 1rem 2rem;
-			background-color: color.$main;
-			border-radius: 0.5rem;
-			border: none;
-			color: color.$font-lighter;
-			font-weight: 600;
-			cursor: pointer;
-		}
-	}
 }

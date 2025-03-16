@@ -1,34 +1,32 @@
 import { createPortal } from 'react-dom';
 import classes from './Notification.module.scss';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiActions } from '../../store/ui-slice';
+import Dialog from './Dialog';
 
 export default function Notification({ onClose }) {
+	const [dialogIsOpen, setDialogIsOpen] = useState(false);
 	const dispatch = useDispatch();
 	const noticationContent = useSelector(
 		(state) => state.ui.notificationContent
 	);
-	const dialog = useRef();
 	const handleClose = () => {
-		dialog.current.close();
+		setDialogIsOpen(false);
 		dispatch(uiActions.hideNotification());
 	};
 	useEffect(() => {
-		const modal = dialog.current;
-		modal.showModal();
+		setDialogIsOpen(true);
 		return () => {
-			modal.close();
+			setDialogIsOpen(false);
 		};
 	}, []);
+
 	return createPortal(
-		<dialog className={classes.modal} ref={dialog}>
+		<Dialog open={dialogIsOpen} onClose={handleClose} type="ok">
 			<h2>{noticationContent.title}</h2>
 			<div className={classes.content}>{noticationContent.msg}</div>
-			<p className={classes.action}>
-				<button onClick={handleClose}>Ok</button>
-			</p>
-		</dialog>,
+		</Dialog>,
 		document.getElementById('modal')
 	);
 }

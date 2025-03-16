@@ -16,62 +16,8 @@
 		margin-bottom: 1rem;
 	}
 }
-
-.dialog {
-	background-color: color.$background-lighter;
-	position: fixed;
-	top: 30%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	border-radius: 1rem;
-	border: none;
-	box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-	padding: 2rem;
-	z-index: 100;
-	&[open] {
-		animation: slide 0.5s ease-in forwards;
-	}
-
-	&::backdrop {
-		height: 100vh;
-		width: 100%;
-		background: rgba(0, 0, 0, 0.5);
-		position: fixed;
-		top: 0;
-		left: 0;
-	}
-}
-
-.closeBtn {
-	position: absolute;
-	display: block;
-	right: 1rem;
-	top: 1rem;
-	font-size: 2rem;
-	font-weight: 800;
-	cursor: pointer;
-	padding: 1rem;
-}
-
-.form {
-	margin-bottom: 2rem;
-	input {
-		display: block;
-		padding: 1rem;
-		margin: 1rem 0.5rem;
-		border-radius: 0.5rem;
-		border: none;
-		font-weight: 600;
-		font-size: 1.6rem;
-	}
-
-	ul li {
-		width: fit-content;
-	}
-
-	.action {
-		text-align: center;
-	}
+.action {
+	text-align: center;
 
 	button {
 		margin: 1rem 0.5rem;
@@ -89,12 +35,19 @@
 		}
 	}
 }
-
-@keyframes slide {
-	from {
-		top: -20%;
+.form {
+	margin-bottom: 2rem;
+	input {
+		display: block;
+		padding: 1rem;
+		margin: 1rem 0.5rem;
+		border-radius: 0.5rem;
+		border: none;
+		font-weight: 600;
+		font-size: 1.6rem;
 	}
-	to {
-		top: 30%;
+
+	ul li {
+		width: fit-content;
 	}
 }

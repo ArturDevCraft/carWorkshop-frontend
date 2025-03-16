@@ -1,16 +1,17 @@
-import { useActionState, useRef } from 'react';
+import { useActionState, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Input from '../UI/Input';
 import { hasMinLength, isNotEmpty } from '../../util/validation';
 import { getCarsData, sendCarData } from '../../store/cars-actions';
 import { uiActions } from '../../store/ui-slice';
 import classses from './NewCar.module.scss';
+import Dialog from '../UI/Dialog';
+
 export default function NewCar() {
+	const [dialogIsOpen, setDialogIsOpen] = useState(false);
 	const [formState, formAction] = useActionState(actionHandler, {
 		errors: null,
 	});
-
-	const dialog = useRef();
 
 	const dispatch = useDispatch();
 
@@ -51,7 +52,7 @@ export default function NewCar() {
 			);
 			dispatch(getCarsData());
 			//get new cars from backend
-			dialog.current.close();
+			setDialogIsOpen(false);
 			return { errors: null };
 		} catch (err) {
 			const errMsg = await err.json();
@@ -61,10 +62,7 @@ export default function NewCar() {
 	}
 
 	const openDialog = () => {
-		dialog.current.showModal();
-	};
-	const closeDialog = () => {
-		dialog.current.close();
+		setDialogIsOpen(true);
 	};
 
 	return (
@@ -75,10 +73,7 @@ export default function NewCar() {
 				</p>
 				<p className={classses.text}>Add New Car</p>
 			</button>
-			<dialog ref={dialog} className={classses.dialog}>
-				<a className={classses.closeBtn} onClick={closeDialog}>
-					x
-				</a>
+			<Dialog open={dialogIsOpen} onClose={() => setDialogIsOpen(false)}>
 				<h2>Add new car</h2>
 				<form action={formAction} className={classses.form}>
 					<Input
@@ -106,7 +101,7 @@ export default function NewCar() {
 						<button type="submit">Add</button>
 					</p>
 				</form>
-			</dialog>
+			</Dialog>
 		</>
 	);
 }

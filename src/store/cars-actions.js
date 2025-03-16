@@ -1,6 +1,5 @@
 import { getAuthToken } from '../util/auth';
 import { carsActions } from './cars-slice';
-import { uiActions } from './ui-slice';
 
 export const sendCarData = async (carData) => {
 	let errors = [];
