@@ -1,4 +1,5 @@
 import { getAuthToken } from '../util/auth';
+import { logout } from './auth-actions';
 import { userActions } from './user-slice';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -17,7 +18,6 @@ export const getLoggedUserData = () => {
 
 			if (response.status === 422 || response.status === 401) {
 				dispatch(logout());
-				// throw new Error('Could not got logged user data!');
 				return response;
 			}
 
