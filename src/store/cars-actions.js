@@ -1,5 +1,6 @@
 import { getAuthToken } from '../util/auth';
 import { carsActions } from './cars-slice';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const sendCarData = async (carData) => {
 	let errors = [];
@@ -9,7 +10,7 @@ export const sendCarData = async (carData) => {
 	} else {
 		const addNewCar = async () => {
 			const token = getAuthToken();
-			const response = await fetch('http://localhost:5050/addcar', {
+			const response = await fetch(API_URL + '/addcar', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ export const updateCarData = async (carData, carId) => {
 	} else {
 		const updateCar = async () => {
 			const token = getAuthToken();
-			const response = await fetch('http://localhost:5050/updatecar/' + carId, {
+			const response = await fetch(API_URL + '/updatecar/' + carId, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ export const getCarsData = () => {
 	return async (dispatch) => {
 		const getCarsData = async () => {
 			const token = getAuthToken();
-			const response = await fetch('http://localhost:5050/getCars', {
+			const response = await fetch(API_URL + '/getCars', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ export const getCarsData = () => {
 export const deleteCar = async (id) => {
 	const deleteCar = async (id) => {
 		const token = getAuthToken();
-		const response = await fetch('http://localhost:5050/deleteCar/' + id, {
+		const response = await fetch(API_URL + '/deleteCar/' + id, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',

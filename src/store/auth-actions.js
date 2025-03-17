@@ -2,6 +2,8 @@ import { authActions } from './auth-slice';
 import { removeAuthTokenLocally, saveAuthTokenLocally } from '../util/auth';
 import { uiActions } from './ui-slice';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const sendAuthData = (email, password) => {
 	return async (dispatch) => {
 		let errors = [];
@@ -10,7 +12,7 @@ export const sendAuthData = (email, password) => {
 			return { errors };
 		} else {
 			const getToken = async () => {
-				const response = await fetch('http://localhost:5050/login', {
+				const response = await fetch(API_URL + '/login', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ email, password }),
@@ -49,7 +51,7 @@ export const sendSignupData = (userData) => {
 			return { errors };
 		} else {
 			const registerNewUser = async () => {
-				const response = await fetch('http://localhost:5050/signup', {
+				const response = await fetch(API_URL + '/signup', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(userData),
