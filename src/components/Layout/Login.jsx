@@ -43,33 +43,39 @@ export default function Login() {
 	}
 
 	return (
-		<div className={classes.login}>
-			<h2>Login to Car Repair Booking</h2>
-			<form action={formAction} noValidate>
-				<Input
-					name="email"
-					type="email"
-					placeholder="E-mail"
-					defaultValue={formState.enteredValues?.email}
-					errors={formState.errors?.email}
-				/>
+		<>
+			<div className={classes.login}>
+				<h2>Login to Car Repair Booking</h2>
+				<form action={formAction} noValidate>
+					<Input
+						name="email"
+						type="email"
+						placeholder="E-mail"
+						defaultValue={formState.enteredValues?.email}
+						errors={formState.errors?.email}
+					/>
 
-				<Input
-					name="password"
-					type="password"
-					placeholder="Password"
-					defaultValue={formState.enteredValues?.password}
-					errors={formState.errors?.password}
-				/>
+					<Input
+						name="password"
+						type="password"
+						placeholder="Password"
+						defaultValue={formState.enteredValues?.password}
+						errors={formState.errors?.password}
+					/>
 
-				<button className={classes.button} type="submit">
-					LOGIN
-				</button>
-			</form>
-			<p>
-				Don't have an account?
-				<SignupToggleButton>Join us!</SignupToggleButton>
-			</p>
-		</div>
+					<button className={classes.button} type="submit">
+						LOGIN
+					</button>
+				</form>
+				<p>
+					Don't have an account?
+					<SignupToggleButton>Join us!</SignupToggleButton>
+				</p>
+			</div>
+			<p>You can create new user or login to test account:</p>
+			<br></br>
+			<p>E-mail: aa@bb.cc</p>
+			<p>Password: 123456</p>
+		</>
 	);
 }
