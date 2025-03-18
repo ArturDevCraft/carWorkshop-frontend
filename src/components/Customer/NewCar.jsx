@@ -1,7 +1,6 @@
 import { useActionState, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Input from '../UI/Input';
-import { hasMinLength, isNotEmpty } from '../../util/validation';
 import { getCarsData, sendCarData } from '../../store/cars-actions';
 import { uiActions } from '../../store/ui-slice';
 import classses from './NewCar.module.scss';
@@ -16,49 +15,43 @@ export default function NewCar() {
 	const dispatch = useDispatch();
 
 	async function actionHandler(prevState, formData) {
-		let errors = {
-			make: null,
-			model: null,
-			vin: null,
-		};
-
 		const carData = {
 			make: formData.get('make'),
 			model: formData.get('model'),
 			vin: formData.get('vin'),
 		};
 
-		if (!isNotEmpty(carData.make)) {
-			errors.make = 'You must provide make';
-		}
-		if (!isNotEmpty(carData.model)) {
-			errors.model = 'You must provide model';
-		}
-		if (!hasMinLength(carData.vin, 17)) {
-			errors.vin = 'Vin must have 17 characters';
-		}
-
-		if (errors.make !== null || errors.model !== null || errors.vin !== null) {
-			return { errors, enteredValues: carData };
-		}
-
 		try {
 			await sendCarData(carData);
-			dispatch(
-				uiActions.showNotification({
-					title: 'Car added!',
-					msg: 'You can add new repair',
-				})
-			);
-			dispatch(getCarsData());
-			//get new cars from backend
-			setDialogIsOpen(false);
-			return { errors: null };
-		} catch (err) {
-			const errMsg = await err.json();
+		} catch (error) {
+			let msg;
+			if (error instanceof TypeError) {
+				msg = 'Network error: Server is down or address is incorrect.';
+			} else {
+				msg = 'Fetch error:' + error.message;
+			}
 
-			return { errors: errMsg.errors, enteredValues: carData };
+			if (!error.errors) {
+				dispatch(
+					uiActions.showNotification({
+						title: 'Connection problem!',
+						msg: msg,
+					})
+				);
+			}
+
+			return { errors: error.errors, enteredValues: carData };
 		}
+
+		dispatch(
+			uiActions.showNotification({
+				title: 'Car added!',
+				msg: 'You can add new repair',
+			})
+		);
+		dispatch(getCarsData());
+		setDialogIsOpen(false);
+		return { errors: null };
 	}
 
 	const openDialog = () => {

@@ -1,35 +1,37 @@
-import { getAuthToken } from '../util/auth';
+import { sendRequest } from '../util/http';
 import { carsActions } from './cars-slice';
+import { hasMinLength, isNotEmpty } from '../util/validation';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const sendCarData = async (carData) => {
-	let errors = [];
+	let errors = {
+		make: null,
+		model: null,
+		vin: null,
+	};
+	if (!isNotEmpty(carData.make)) {
+		errors.make = 'You must provide make';
+	}
+	if (!isNotEmpty(carData.model)) {
+		errors.model = 'You must provide model';
+	}
+	if (!hasMinLength(carData.vin, 17)) {
+		errors.vin = 'Vin must have 17 characters';
+	}
 
-	if (errors.length > 0) {
-		return { errors };
+	if (errors.make !== null || errors.model !== null || errors.vin !== null) {
+		const error = new Error('Validation error.');
+		error.errors = errors;
+		throw error;
 	} else {
-		const addNewCar = async () => {
-			const token = getAuthToken();
-			const response = await fetch(API_URL + '/addcar', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + token,
-				},
-				body: JSON.stringify(carData),
-			});
-
-			if (response.status === 422 || response.status === 401 || !response.ok) {
-				// throw new Error('Could not add new user!');
-				throw response;
-			}
-
-			const resData = await response.json();
-			return resData;
-		};
-
 		try {
-			await addNewCar();
+			await sendRequest({
+				method: 'POST',
+				endPoint: 'addcar',
+				data: carData,
+				auth: true,
+			});
 		} catch (error) {
 			throw error;
 		}
@@ -37,33 +39,34 @@ export const sendCarData = async (carData) => {
 };
 
 export const updateCarData = async (carData, carId) => {
-	let errors = [];
+	let errors = {
+		make: null,
+		model: null,
+		vin: null,
+	};
 
-	if (errors.length > 0) {
-		return { errors };
+	if (!isNotEmpty(carData.make)) {
+		errors.make = 'You must provide make';
+	}
+	if (!isNotEmpty(carData.model)) {
+		errors.model = 'You must provide model';
+	}
+	if (!hasMinLength(carData.vin, 17)) {
+		errors.vin = 'Vin must have 17 characters';
+	}
+
+	if (errors.make !== null || errors.model !== null || errors.vin !== null) {
+		const error = new Error('Validation error.');
+		error.errors = errors;
+		throw error;
 	} else {
-		const updateCar = async () => {
-			const token = getAuthToken();
-			const response = await fetch(API_URL + '/updatecar/' + carId, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + token,
-				},
-				body: JSON.stringify(carData),
-			});
-
-			if (response.status === 422 || response.status === 401 || !response.ok) {
-				// throw new Error('Could not add new user!');
-				throw response;
-			}
-
-			const resData = await response.json();
-			return resData;
-		};
-
 		try {
-			await updateCar();
+			await sendRequest({
+				method: 'PUT',
+				endPoint: 'updatecar/' + carId,
+				data: carData,
+				auth: true,
+			});
 		} catch (error) {
 			throw error;
 		}
@@ -72,62 +75,27 @@ export const updateCarData = async (carData, carId) => {
 
 export const getCarsData = () => {
 	return async (dispatch) => {
-		const getCarsData = async () => {
-			const token = getAuthToken();
-			const response = await fetch(API_URL + '/getCars', {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + token,
-				},
-			});
-
-			if (response.status === 422 || response.status === 401) {
-				dispatch(logout());
-				// throw new Error('Could not got logged user data!');
-				throw response;
-			}
-
-			if (!response.ok) {
-				throw new Error('Could not got cars data!');
-			}
-
-			const resData = await response.json();
-			return resData.data;
-		};
-
 		try {
-			const data = await getCarsData();
-			dispatch(carsActions.setCarData(data));
-		} catch (error) {}
+			const data = await sendRequest({
+				method: 'GET',
+				endPoint: 'getCars',
+				auth: true,
+			});
+			dispatch(carsActions.setCarData(data.data));
+		} catch (error) {
+			throw error;
+		}
 	};
 };
 
 export const deleteCar = async (id) => {
-	const deleteCar = async (id) => {
-		const token = getAuthToken();
-		const response = await fetch(API_URL + '/deleteCar/' + id, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + token,
-			},
-		});
-
-		if (response.status === 422 || response.status === 401) {
-			// throw new Error('Could not got logged user data!');
-			throw response;
-		}
-
-		if (!response.ok) {
-			throw new Error('Could not delete car!');
-		}
-
-		const resData = await response.json();
-		return resData.data;
-	};
-
 	try {
-		const data = await deleteCar(id);
-	} catch (error) {}
+		const data = await sendRequest({
+			method: 'DELETE',
+			endPoint: 'deleteCar/' + id,
+			auth: true,
+		});
+	} catch (error) {
+		throw error;
+	}
 };

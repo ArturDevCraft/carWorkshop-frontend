@@ -1,10 +1,10 @@
 import { useActionState, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Input from '../UI/Input';
-import { hasMinLength, isNotEmpty } from '../../util/validation';
 import { getCarsData, updateCarData } from '../../store/cars-actions';
 import classses from './NewCar.module.scss';
 import Dialog from '../UI/Dialog';
+import { uiActions } from '../../store/ui-slice';
 
 export default function EditCar({ carData, carId }) {
 	const [dialogIsOpen, setDialogIsOpen] = useState(false);
@@ -16,39 +16,34 @@ export default function EditCar({ carData, carId }) {
 	const dispatch = useDispatch();
 
 	async function actionHandler(prevState, formData) {
-		let errors = {
-			make: null,
-			model: null,
-			vin: null,
-		};
-
 		const carData = {
 			make: formData.get('make'),
 			model: formData.get('model'),
 			vin: formData.get('vin'),
 		};
 
-		if (!isNotEmpty(carData.make)) {
-			errors.make = 'You must provide make';
-		}
-		if (!isNotEmpty(carData.model)) {
-			errors.model = 'You must provide model';
-		}
-		if (!hasMinLength(carData.vin, 17)) {
-			errors.vin = 'Vin must have 17 characters';
-		}
-
-		if (errors.make !== null || errors.model !== null || errors.vin !== null) {
-			return { errors, enteredValues: carData };
-		}
-
 		try {
 			await updateCarData(carData, carId);
-		} catch (err) {
-			const errMsg = await err.json();
+		} catch (error) {
+			let msg;
+			if (error instanceof TypeError) {
+				msg = 'Network error: Server is down or address is incorrect.';
+			} else {
+				msg = 'Fetch error:' + error.message;
+			}
 
-			return { errors: errMsg.errors, enteredValues: carData };
+			if (!error.errors) {
+				dispatch(
+					uiActions.showNotification({
+						title: 'Connection problem!',
+						msg: msg,
+					})
+				);
+			}
+
+			return { errors: error.errors, enteredValues: carData };
 		}
+
 		setDialogIsOpen(false);
 		dispatch(getCarsData());
 		return { errors: null, enteredValues: carData };

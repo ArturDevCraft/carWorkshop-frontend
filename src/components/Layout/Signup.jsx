@@ -2,12 +2,6 @@ import classes from './Signup.module.scss';
 import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
 import { sendSignupData } from '../../store/auth-actions.js';
-import {
-	isEmail,
-	isNotEmpty,
-	hasMinLength,
-	isEqualToOtherValue,
-} from '../../util/validation.js';
 import Input from '../UI/Input.jsx';
 import SignupToggleButton from '../UI/SignupToggleButton.jsx';
 import Select from '../UI/Select.jsx';
@@ -20,14 +14,6 @@ export default function Signup() {
 	const dispatch = useDispatch();
 
 	async function signupAction(prevFormState, formData) {
-		let errors = {
-			email: null,
-			password: null,
-			passwordConfirm: null,
-			name: null,
-			role: null,
-		};
-
 		const userData = {
 			email: formData.get('email'),
 			password: formData.get('password'),
@@ -35,46 +21,35 @@ export default function Signup() {
 			name: formData.get('name'),
 			role: formData.get('role'),
 		};
-		if (!isEmail(userData.email)) {
-			errors.email = 'Invalid email address.';
-		}
-
-		if (!isNotEmpty(userData.password) || !hasMinLength(userData.password, 6)) {
-			errors.password =
-				'You must provide a password with at least six characters.';
-		}
-		if (!isNotEmpty(userData.name) || !hasMinLength(userData.name, 2)) {
-			errors.name = 'You must provide a name.';
-		}
-
-		if (!isEqualToOtherValue(userData.password, userData.passwordConfirm)) {
-			errors.passwordConfirm = 'Passwords must be the same.';
-		}
-
-		if (
-			errors.email !== null ||
-			errors.password !== null ||
-			errors.passwordConfirm !== null ||
-			errors.name !== null ||
-			errors.role !== null
-		) {
-			return { errors, enteredValues: userData };
-		}
 
 		try {
-			await dispatch(sendSignupData(userData));
-			dispatch(
-				uiActions.showNotification({
-					title: 'User created!',
-					msg: 'You can login',
-				})
-			);
-			return { errors: null };
-		} catch (err) {
-			const errMsg = await err.json();
+			await sendSignupData(userData);
+		} catch (error) {
+			let msg;
+			if (error instanceof TypeError) {
+				msg = 'Network error: Server is down or address is incorrect.';
+			} else {
+				msg = 'Fetch error:' + error.message;
+			}
 
-			return { errors: errMsg.errors, enteredValues: userData };
+			if (!error.errors) {
+				dispatch(
+					uiActions.showNotification({
+						title: 'Connection problem!',
+						msg: msg,
+					})
+				);
+			}
+			return { errors: error.errors, enteredValues: userData };
 		}
+		dispatch(
+			uiActions.showNotification({
+				title: 'User created!',
+				msg: 'You can login',
+			})
+		);
+		dispatch(uiActions.toggleLogin());
+		return { errors: null };
 	}
 
 	return (

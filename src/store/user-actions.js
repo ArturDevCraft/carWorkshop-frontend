@@ -1,43 +1,46 @@
-import { getAuthToken } from '../util/auth';
+import { sendRequest } from '../util/http';
 import { logout } from './auth-actions';
+import { uiActions } from './ui-slice';
 import { userActions } from './user-slice';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const getLoggedUserData = () => {
 	return async (dispatch) => {
-		const getUserData = async () => {
-			const token = getAuthToken();
-			const response = await fetch(API_URL + '/user', {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + token,
-				},
-			});
-
-			if (response.status === 422 || response.status === 401) {
-				dispatch(logout());
-				return response;
-			}
-
-			if (!response.ok) {
-				throw new Error('Could not got logged user data!');
-			}
-
-			const resData = await response.json();
-			return resData.loggedUserData;
-		};
-
 		try {
-			const data = await getUserData();
+			const data = await sendRequest({
+				method: 'GET',
+				endPoint: 'user',
+				auth: true,
+			});
 			dispatch(
 				userActions.setUserCredentials({
-					role: data.role,
-					email: data.email,
-					name: data.name,
+					role: data.loggedUserData.role,
+					email: data.loggedUserData.email,
+					name: data.loggedUserData.name,
 				})
 			);
-		} catch (error) {}
+		} catch (error) {
+			let msg;
+			if (error instanceof TypeError) {
+				msg = 'Network error: Server is down or address is incorrect.';
+			} else {
+				msg = 'Fetch error:' + error.message;
+			}
+
+			if (!error.errors) {
+				dispatch(
+					uiActions.showNotification({
+						title: 'Connection problem!',
+						msg: msg,
+					})
+				);
+				dispatch(logout());
+			}
+			if (error.code === 422 || error.code === 401) {
+				dispatch(logout());
+			}
+			throw error;
+		}
 	};
 };

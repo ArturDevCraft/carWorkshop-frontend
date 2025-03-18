@@ -1,41 +1,42 @@
 import { authActions } from './auth-slice';
 import { removeAuthTokenLocally, saveAuthTokenLocally } from '../util/auth';
-import { uiActions } from './ui-slice';
+import { sendRequest } from '../util/http';
+import {
+	isEmail,
+	isNotEmpty,
+	hasMinLength,
+	isEqualToOtherValue,
+} from '../util/validation.js';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const sendAuthData = (email, password) => {
 	return async (dispatch) => {
-		let errors = [];
+		let errors = { email: null, password: null };
 
-		if (errors.length > 0) {
-			return { errors };
+		if (!isEmail(email)) {
+			errors.email = 'Invalid email address.';
+		}
+
+		if (!isNotEmpty(password) || !hasMinLength(password, 6)) {
+			errors.password =
+				'You must provide a password with at least six characters.';
+		}
+
+		if (errors.email !== null || errors.password !== null) {
+			const error = new Error('Validation error.');
+			error.errors = errors;
+			throw error;
 		} else {
-			const getToken = async () => {
-				const response = await fetch(API_URL + '/login', {
+			try {
+				const token = await sendRequest({
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ email, password }),
+					endPoint: 'login',
+					data: { email, password },
 				});
 
-				if (response.status === 422 || response.status === 401) {
-					// saveAuthTokenLocally(null);
-					// return response;
-					throw new Error('Could not authenticate!');
-				}
-
-				if (!response.ok) {
-					throw new Error('Could not authenticate!');
-				}
-
-				const resData = await response.json();
-				return resData.token;
-			};
-
-			try {
-				const token = await getToken();
-				saveAuthTokenLocally(token);
-				dispatch(authActions.setToken(token));
+				saveAuthTokenLocally(token.token);
+				dispatch(authActions.setToken(token.token));
 			} catch (error) {
 				throw error;
 			}
@@ -43,40 +44,51 @@ export const sendAuthData = (email, password) => {
 	};
 };
 
-export const sendSignupData = (userData) => {
-	return async (dispatch) => {
-		let errors = [];
-
-		if (errors.length > 0) {
-			return { errors };
-		} else {
-			const registerNewUser = async () => {
-				const response = await fetch(API_URL + '/signup', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(userData),
-				});
-
-				if (
-					response.status === 422 ||
-					response.status === 401 ||
-					!response.ok
-				) {
-					// throw new Error('Could not add new user!');
-					throw response;
-				}
-				const resData = await response.json();
-				return resData;
-			};
-
-			try {
-				await registerNewUser();
-				dispatch(uiActions.toggleLogin());
-			} catch (error) {
-				throw error;
-			}
-		}
+export const sendSignupData = async (userData) => {
+	let errors = {
+		email: null,
+		password: null,
+		passwordConfirm: null,
+		name: null,
+		role: null,
 	};
+
+	if (!isEmail(userData.email)) {
+		errors.email = 'Invalid email address.';
+	}
+
+	if (!isNotEmpty(userData.password) || !hasMinLength(userData.password, 6)) {
+		errors.password =
+			'You must provide a password with at least six characters.';
+	}
+	if (!isNotEmpty(userData.name) || !hasMinLength(userData.name, 2)) {
+		errors.name = 'You must provide a name.';
+	}
+
+	if (!isEqualToOtherValue(userData.password, userData.passwordConfirm)) {
+		errors.passwordConfirm = 'Passwords must be the same.';
+	}
+	if (
+		errors.email !== null ||
+		errors.password !== null ||
+		errors.passwordConfirm !== null ||
+		errors.name !== null ||
+		errors.role !== null
+	) {
+		const error = new Error('Validation error.');
+		error.errors = errors;
+		throw error;
+	} else {
+		try {
+			await sendRequest({
+				method: 'POST',
+				endPoint: 'signup',
+				data: userData,
+			});
+		} catch (error) {
+			throw error;
+		}
+	}
 };
 
 export const logout = () => {

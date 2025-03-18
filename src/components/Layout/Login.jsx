@@ -2,7 +2,6 @@ import classes from './Login.module.scss';
 import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
 import { sendAuthData } from '../../store/auth-actions.js';
-import { isEmail, isNotEmpty, hasMinLength } from '../../util/validation.js';
 import Input from '../UI/Input.jsx';
 import { uiActions } from '../../store/ui-slice.js';
 import SignupToggleButton from '../UI/SignupToggleButton.jsx';
@@ -14,32 +13,31 @@ export default function Login() {
 	const dispatch = useDispatch();
 
 	async function loginAction(prevFormState, formData) {
-		let errors = { email: null, password: null };
-
 		const email = formData.get('email');
 		const password = formData.get('password');
 
-		if (!isEmail(email)) {
-			errors.email = 'Invalid email address.';
-		}
-
-		if (!isNotEmpty(password) || !hasMinLength(password, 6)) {
-			errors.password =
-				'You must provide a password with at least six characters.';
-		}
-
-		if (errors.email !== null || errors.password !== null) {
-			return { errors, enteredValues: { email, password } };
-		}
-
 		try {
 			await dispatch(sendAuthData(email, password));
-			return { errors: null };
-		} catch (err) {
-			errors.password = 'Invalid email or password.';
-			errors.email = 'Invalid email or password.';
-			return { errors, enteredValues: { email, password } };
+		} catch (error) {
+			let msg;
+			if (error instanceof TypeError) {
+				msg = 'Network error: Server is down or address is incorrect.';
+			} else {
+				msg = 'Fetch error:' + error.message;
+			}
+
+			if (!error.errors) {
+				dispatch(
+					uiActions.showNotification({
+						title: 'Connection problem!',
+						msg: msg,
+					})
+				);
+			}
+
+			return { errors: error.errors, enteredValues: { email, password } };
 		}
+		return { errors: null };
 	}
 
 	return (
