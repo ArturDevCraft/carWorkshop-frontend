@@ -1,0 +1,49 @@
+@use '../../scss/colors' as color;
+.actionBtn {
+	cursor: pointer;
+	border: none;
+	background-color: color.$background-secondary;
+	border-radius: 0.8rem;
+	padding: 1rem 2.5rem;
+	font-size: 1.6rem;
+	font-weight: 600;
+	&:hover {
+		background-color: color.$secondary;
+		color: color.$font-lighter;
+	}
+}
+.action {
+	text-align: center;
+
+	button {
+		margin: 1rem 0.5rem;
+		font-size: 1.6rem;
+		font-weight: 800;
+		padding: 1rem 2rem;
+		border: none;
+		border-radius: 0.5rem;
+		background-color: color.$background-secondary;
+		color: color.$font-dark;
+		transition: 0.3s background-color;
+		cursor: pointer;
+		&:hover {
+			background-color: color.$secondary;
+		}
+	}
+}
+.form {
+	margin-bottom: 2rem;
+	input {
+		display: block;
+		padding: 1rem;
+		margin: 1rem 0.5rem;
+		border-radius: 0.5rem;
+		border: none;
+		font-weight: 600;
+		font-size: 1.6rem;
+	}
+
+	ul li {
+		width: fit-content;
+	}
+}

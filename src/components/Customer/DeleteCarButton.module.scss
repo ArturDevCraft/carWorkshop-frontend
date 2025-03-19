@@ -1,11 +1,12 @@
 @use '../../scss/colors' as color;
 .actionBtn {
 	cursor: pointer;
-	width: 100%;
-	font-size: 1.8rem;
 	border: none;
 	background-color: color.$background-secondary;
 	border-radius: 0.8rem;
+	padding: 1rem 2.5rem;
+	font-size: 1.6rem;
+	font-weight: 600;
 	&:hover {
 		background-color: color.$secondary;
 		color: color.$font-lighter;

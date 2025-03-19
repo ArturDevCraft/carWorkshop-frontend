@@ -2,7 +2,7 @@ import { useActionState, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Input from '../UI/Input';
 import { getCarsData, updateCarData } from '../../store/cars-actions';
-import classses from './NewCar.module.scss';
+import classes from './EditCar.module.scss';
 import Dialog from '../UI/Dialog';
 import { uiActions } from '../../store/ui-slice';
 
@@ -55,12 +55,12 @@ export default function EditCar({ carData, carId }) {
 
 	return (
 		<>
-			<button className={classses.newBtn} onClick={openDialog}>
+			<button className={classes.actionBtn} onClick={openDialog}>
 				Edit
 			</button>
 			<Dialog open={dialogIsOpen} onClose={() => setDialogIsOpen(false)}>
 				<h2>Add new car</h2>
-				<form action={formAction} className={classses.form}>
+				<form action={formAction} className={classes.form}>
 					<Input
 						name="make"
 						type="text"
@@ -82,7 +82,7 @@ export default function EditCar({ carData, carId }) {
 						defaultValue={formState.enteredValues?.vin}
 						errors={formState.errors?.vin}
 					/>
-					<p className={classses.action}>
+					<p className={classes.action}>
 						<button type="submit">Save</button>
 					</p>
 				</form>
