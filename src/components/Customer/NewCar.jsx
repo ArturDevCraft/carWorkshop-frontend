@@ -5,20 +5,25 @@ import { getCarsData, sendCarData } from '../../store/cars-actions';
 import { uiActions } from '../../store/ui-slice';
 import classses from './NewCar.module.scss';
 import Dialog from '../UI/Dialog';
+import ImageLoader from '../UI/ImageLoader';
 
 export default function NewCar() {
 	const [dialogIsOpen, setDialogIsOpen] = useState(false);
 	const [formState, formAction] = useActionState(actionHandler, {
 		errors: null,
 	});
+	const [imageUploadFn, setImageUploadFn] = useState(null);
+	const [resetKey, setResetKey] = useState(0);
 
 	const dispatch = useDispatch();
 
 	async function actionHandler(prevState, formData) {
+		const imageUrl = await imageUploadFn();
 		const carData = {
 			make: formData.get('make'),
 			model: formData.get('model'),
 			vin: formData.get('vin'),
+			imageUrl: imageUrl || formData.get('imageUrl'),
 		};
 
 		try {
@@ -51,6 +56,7 @@ export default function NewCar() {
 		);
 		dispatch(getCarsData());
 		setDialogIsOpen(false);
+		setResetKey((prevKey) => prevKey + 1);
 		return { errors: null };
 	}
 
@@ -69,6 +75,12 @@ export default function NewCar() {
 			<Dialog open={dialogIsOpen} onClose={() => setDialogIsOpen(false)}>
 				<h2>Add new car</h2>
 				<form action={formAction} className={classses.form}>
+					<ImageLoader
+						key={resetKey}
+						name="imageUrl"
+						placeholder="Upload file or paste file url"
+						upload={setImageUploadFn}
+					/>
 					<Input
 						name="make"
 						type="text"

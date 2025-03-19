@@ -20,6 +20,13 @@ export default function Cars() {
 				{cars.map((car) => (
 					<div className={classes.card} key={car._id}>
 						<div className={classes.front}>
+							{car.imageUrl && (
+								<img
+									className={classes.image}
+									src={car.imageUrl}
+									alt={`${car.make}-${car.model}`}
+								/>
+							)}
 							<p className={classes.make}>
 								{car.make} {car.model}
 							</p>
