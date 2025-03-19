@@ -80,6 +80,7 @@ export default function NewCar() {
 						name="imageUrl"
 						placeholder="Upload file or paste file url"
 						upload={setImageUploadFn}
+						defaultValue={formState.enteredValues?.imageUrl}
 					/>
 					<Input
 						name="make"

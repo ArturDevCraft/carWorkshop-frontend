@@ -9,6 +9,7 @@ export default function ImageLoader({ name, placeholder, upload }) {
 	const [uploading, setUploading] = useState(false);
 	const [fileUrl, setFileUrl] = useState('');
 	const imageInput = useRef();
+	const urlInput = useRef();
 
 	const handleFileChange = (e) => {
 		const pickedFile = e.target.files[0];
@@ -47,6 +48,12 @@ export default function ImageLoader({ name, placeholder, upload }) {
 			return urlData.publicUrl;
 		}
 	};
+	const handleReset = () => {
+		imageInput.current.value = '';
+		urlInput.current.value = '';
+		setFilePreview(null);
+		setFile(null);
+	};
 
 	useEffect(() => {
 		upload(() => handleUpload);
@@ -76,7 +83,11 @@ export default function ImageLoader({ name, placeholder, upload }) {
 			>
 				{uploading ? 'Uploading...' : 'Pick an Image'}
 			</button>
+			<button className={classes.button} type="button" onClick={handleReset}>
+				Reset
+			</button>
 			<input
+				ref={urlInput}
 				type="text"
 				name={name}
 				id={name}
