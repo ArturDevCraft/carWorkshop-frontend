@@ -1,6 +1,7 @@
 import { sendRequest } from '../util/http';
 import { carsActions } from './cars-slice';
 import { hasMinLength, isNotEmpty } from '../util/validation';
+import { getToken } from './auth-actions';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -83,6 +84,7 @@ export const getCarsData = () => {
 			});
 			dispatch(carsActions.setCarData(data.data));
 		} catch (error) {
+			dispatch(getToken());
 			throw error;
 		}
 	};

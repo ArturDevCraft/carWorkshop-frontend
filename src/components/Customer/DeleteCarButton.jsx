@@ -3,6 +3,7 @@ import { deleteCar, getCarsData } from '../../store/cars-actions';
 import classes from './DeleteCarButton.module.scss';
 import Dialog from '../UI/Dialog';
 import { useState } from 'react';
+import { uiActions } from '../../store/ui-slice';
 
 export default function DeleteCarButton({ carId }) {
 	const dispatch = useDispatch();
@@ -12,10 +13,21 @@ export default function DeleteCarButton({ carId }) {
 		try {
 			await deleteCar(carId);
 			dispatch(getCarsData());
-		} catch (err) {
-			const errMsg = await err.json();
-
-			return { errors: errMsg.errors };
+		} catch (error) {
+			let msg;
+			if (error instanceof TypeError) {
+				msg = 'Network error: Server is down or address is incorrect.';
+			} else {
+				msg = 'Fetch error:' + error.message;
+			}
+			if (!error.errors) {
+				dispatch(
+					uiActions.showNotification({
+						title: 'Connection problem!',
+						msg: msg,
+					})
+				);
+			}
 		}
 		setDialogIsOpen(false);
 	};

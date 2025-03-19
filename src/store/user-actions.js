@@ -28,15 +28,6 @@ export const getLoggedUserData = () => {
 				msg = 'Fetch error:' + error.message;
 			}
 
-			if (!error.errors) {
-				dispatch(
-					uiActions.showNotification({
-						title: 'Connection problem!',
-						msg: msg,
-					})
-				);
-				dispatch(logout());
-			}
 			if (error.code === 422 || error.code === 401) {
 				dispatch(logout());
 			}

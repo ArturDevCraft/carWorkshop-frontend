@@ -1,5 +1,9 @@
 import { authActions } from './auth-slice';
-import { removeAuthTokenLocally, saveAuthTokenLocally } from '../util/auth';
+import {
+	getAuthToken,
+	removeAuthTokenLocally,
+	saveAuthTokenLocally,
+} from '../util/auth';
 import { sendRequest } from '../util/http';
 import {
 	isEmail,
@@ -95,5 +99,12 @@ export const logout = () => {
 	return (dispatch) => {
 		removeAuthTokenLocally();
 		dispatch(authActions.setToken(false));
+	};
+};
+
+export const getToken = () => {
+	return (dispatch) => {
+		const token = getAuthToken();
+		dispatch(authActions.setToken(token));
 	};
 };

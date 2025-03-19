@@ -1,4 +1,4 @@
-import { getAuthToken } from '../util/auth';
+import { getAuthToken, removeAuthTokenLocally } from '../util/auth';
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function sendRequest({
@@ -35,6 +35,9 @@ export async function sendRequest({
 		const resData = await response.json();
 		return resData;
 	} catch (error) {
+		if (auth && (error.code === 422 || error.code === 401)) {
+			removeAuthTokenLocally();
+		}
 		throw error;
 	}
 }
