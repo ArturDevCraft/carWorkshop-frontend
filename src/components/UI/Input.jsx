@@ -7,9 +7,11 @@ export default function Input({
 	type,
 	defaultValue,
 	errors,
+	label,
 }) {
 	return (
-		<>
+		<div className={classes.wrapper}>
+			{label && <label htmlFor={name}>{label}: </label>}
 			<input
 				id={name}
 				name={name}
@@ -19,6 +21,6 @@ export default function Input({
 				className={errors?.length > 0 ? classes.error : ''}
 			/>
 			{errors && <InputErrorList errors={errors} />}
-		</>
+		</div>
 	);
 }
