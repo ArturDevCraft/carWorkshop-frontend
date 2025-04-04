@@ -6,6 +6,7 @@ import MenuItem from '../UI/MenuItem';
 import Cars from '../Customer/Cars';
 import Header from './Header';
 import LoggedUserInfo from './LoggedUserInfo';
+import UserAccount from './UserAccount';
 
 export default function CustomerLayout() {
 	const view = useSelector((state) => state.ui.selectedView);
@@ -36,6 +37,11 @@ export default function CustomerLayout() {
 						{view === 'myCars' && (
 							<>
 								<Cars />
+							</>
+						)}
+						{view === 'myAccount' && (
+							<>
+								<UserAccount />
 							</>
 						)}
 					</section>
