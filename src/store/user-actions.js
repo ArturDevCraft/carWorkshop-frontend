@@ -1,9 +1,8 @@
 import { sendRequest } from '../util/http';
+import { isEmail, isEqualToOtherValue, isNotEmpty } from '../util/validation';
 import { logout } from './auth-actions';
 import { uiActions } from './ui-slice';
 import { userActions } from './user-slice';
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 export const getLoggedUserData = () => {
 	return async (dispatch) => {
@@ -34,4 +33,57 @@ export const getLoggedUserData = () => {
 			throw error;
 		}
 	};
+};
+
+export const updateUserData = async (userData) => {
+	let errors = {
+		name: null,
+		email: null,
+		oldPassword: null,
+		newPassword: null,
+		confirmPassword: null,
+	};
+
+	if (!isNotEmpty(userData.name)) {
+		errors.name = 'You must provide name';
+	}
+
+	if (!isEmail(userData.email)) {
+		errors.email = 'You must provide email';
+	}
+
+	if (
+		isNotEmpty(userData.newPassword) &&
+		!isEqualToOtherValue(userData.newPassword, userData.confirmPassword)
+	) {
+		!isNotEmpty(userData.oldPassword)
+			? (errors.oldPassword = 'You must provide old password')
+			: '';
+
+		errors.newPassword = 'Passwords must be the same';
+		errors.confirmPassword = 'Passwords must be the same';
+	}
+
+	if (
+		errors.name !== null ||
+		errors.email !== null ||
+		errors.oldPassword !== null ||
+		errors.newPassword !== null ||
+		errors.confirmPassword !== null
+	) {
+		const error = new Error('Validation error.');
+		error.errors = errors;
+		throw error;
+	} else {
+		try {
+			await sendRequest({
+				method: 'PUT',
+				endPoint: 'updateuser',
+				data: userData,
+				auth: true,
+			});
+		} catch (error) {
+			throw error;
+		}
+	}
 };

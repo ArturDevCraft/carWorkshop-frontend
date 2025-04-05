@@ -3,8 +3,6 @@ import { carsActions } from './cars-slice';
 import { hasMinLength, isNotEmpty } from '../util/validation';
 import { getToken } from './auth-actions';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 export const sendCarData = async (carData) => {
 	let errors = {
 		make: null,

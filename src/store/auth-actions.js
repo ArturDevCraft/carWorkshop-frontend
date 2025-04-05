@@ -12,8 +12,6 @@ import {
 	isEqualToOtherValue,
 } from '../util/validation.js';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 export const sendAuthData = (email, password) => {
 	return async (dispatch) => {
 		let errors = { email: null, password: null };

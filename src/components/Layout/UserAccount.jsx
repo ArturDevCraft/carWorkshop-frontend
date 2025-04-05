@@ -1,21 +1,20 @@
 import { useActionState, useEffect } from 'react';
 import classes from './UserAccount.module.scss';
-import { getLoggedUserData } from '../../store/user-actions';
+import { getLoggedUserData, updateUserData } from '../../store/user-actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Input from '../UI/Input';
 
 export default function UserAccount() {
 	const dispatch = useDispatch();
-	const userRole = useSelector((state) => state.user.role);
 	const userName = useSelector((state) => state.user.name);
 	const userEmail = useSelector((state) => state.user.email);
 	const [formState, formAction] = useActionState(actionHandler, {
 		enteredValues: {
 			name: userName,
 			email: userEmail,
-			oldpassword: null,
-			newpassword: null,
-			confirmpassword: null,
+			oldPassword: null,
+			newPassword: null,
+			confirmPassword: null,
 		},
 		errors: null,
 	});
@@ -24,19 +23,20 @@ export default function UserAccount() {
 		dispatch(getLoggedUserData());
 	}, []);
 
-	function actionHandler(prevState, formData) {
+	async function actionHandler(prevState, formData) {
 		const userData = {
 			name: formData.get('name'),
 			email: formData.get('email'),
-			oldpassword: formData.get('oldpassword'),
-			newpassword: formData.get('newpassword'),
-			confirmpassword: formData.get('confirmpassword'),
+			oldPassword: formData.get('oldPassword'),
+			newPassword: formData.get('newPassword'),
+			confirmPassword: formData.get('confirmPassword'),
 		};
-        try {
-            
-        } catch (error) {
-            
-        }
+
+		try {
+			await updateUserData(userData);
+		} catch (error) {
+			return { enteredValues: userData, errors: error.errors };
+		}
 
 		return { enteredValues: userData, errors: null };
 	}
@@ -61,27 +61,27 @@ export default function UserAccount() {
 			/>
 			<Input
 				label="Old password"
-				name="oldpassword"
+				name="oldPassword"
 				type="password"
 				placeholder="Old password"
-				defaultValue={formState.enteredValues?.oldpassword}
-				errors={formState.errors?.oldpassword}
+				defaultValue={formState.enteredValues?.oldPassword}
+				errors={formState.errors?.oldPassword}
 			/>
 			<Input
 				label="New password"
-				name="newpassword"
+				name="newPassword"
 				type="password"
 				placeholder="New password"
-				defaultValue={formState.enteredValues?.newpassword}
-				errors={formState.errors?.newpassword}
+				defaultValue={formState.enteredValues?.newPassword}
+				errors={formState.errors?.newPassword}
 			/>
 			<Input
 				label="Confirm password"
-				name="confirmpassword"
+				name="confirmPassword"
 				type="password"
 				placeholder="Confirm password"
-				defaultValue={formState.enteredValues?.confirmpassword}
-				errors={formState.errors?.confirmpassword}
+				defaultValue={formState.enteredValues?.confirmPassword}
+				errors={formState.errors?.confirmPassword}
 			/>
 			<p className={classes.action}>
 				<button type="submit">Save</button>
