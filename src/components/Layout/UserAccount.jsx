@@ -3,6 +3,7 @@ import classes from './UserAccount.module.scss';
 import { getLoggedUserData, updateUserData } from '../../store/user-actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Input from '../UI/Input';
+import { uiActions } from '../../store/ui-slice';
 
 export default function UserAccount() {
 	const dispatch = useDispatch();
@@ -37,7 +38,13 @@ export default function UserAccount() {
 		} catch (error) {
 			return { enteredValues: userData, errors: error.errors };
 		}
-
+		dispatch(
+			uiActions.showNotification({
+				title: 'Ok!',
+				msg: 'Data updated correctly.',
+			})
+		);
+		dispatch(getLoggedUserData());
 		return { enteredValues: userData, errors: null };
 	}
 	return (
