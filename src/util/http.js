@@ -35,7 +35,7 @@ export async function sendRequest({
 		const resData = await response.json();
 		return resData;
 	} catch (error) {
-		if (auth && (error.code === 422 || error.code === 401)) {
+		if (auth && error.code === 401) {
 			removeAuthTokenLocally();
 		}
 		throw error;
