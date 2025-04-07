@@ -7,6 +7,7 @@ import Cars from '../Customer/Cars';
 import Header from './Header';
 import LoggedUserInfo from './LoggedUserInfo';
 import UserAccount from './UserAccount';
+import Repairs from './Repairs';
 
 export default function CustomerLayout() {
 	const view = useSelector((state) => state.ui.selectedView);
@@ -42,6 +43,11 @@ export default function CustomerLayout() {
 						{view === 'myAccount' && (
 							<>
 								<UserAccount />
+							</>
+						)}
+						{view === 'myRepairs' && (
+							<>
+								<Repairs />
 							</>
 						)}
 					</section>
