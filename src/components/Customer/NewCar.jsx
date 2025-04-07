@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import Input from '../UI/Input';
 import { getCarsData, sendCarData } from '../../store/cars-actions';
 import { uiActions } from '../../store/ui-slice';
-import classses from './NewCar.module.scss';
+import classes from './NewCar.module.scss';
 import Dialog from '../UI/Dialog';
 import ImageLoader from '../UI/ImageLoader';
 
@@ -66,15 +66,15 @@ export default function NewCar() {
 
 	return (
 		<>
-			<button className={classses.newBtn} onClick={openDialog}>
-				<p className={classses.icon}>
+			<button className={classes.newBtn} onClick={openDialog}>
+				<p className={classes.icon}>
 					<i className="fa-solid fa-plus"></i>
 				</p>
-				<p className={classses.text}>Add New Car</p>
+				<p className={classes.text}>Add New Car</p>
 			</button>
 			<Dialog open={dialogIsOpen} onClose={() => setDialogIsOpen(false)}>
 				<h2>Add new car</h2>
-				<form action={formAction} className={classses.form}>
+				<form action={formAction} className={classes.form}>
 					<ImageLoader
 						key={resetKey}
 						name="imageUrl"
@@ -103,7 +103,7 @@ export default function NewCar() {
 						defaultValue={formState.enteredValues?.vin}
 						errors={formState.errors?.vin}
 					/>
-					<p className={classses.action}>
+					<p className={classes.action}>
 						<button type="submit">Add</button>
 					</p>
 				</form>
