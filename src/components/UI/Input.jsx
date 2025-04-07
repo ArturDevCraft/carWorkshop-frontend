@@ -12,14 +12,26 @@ export default function Input({
 	return (
 		<div className={classes.wrapper}>
 			{label && <label htmlFor={name}>{label}: </label>}
-			<input
-				id={name}
-				name={name}
-				type={type}
-				placeholder={placeholder}
-				defaultValue={defaultValue}
-				className={errors?.length > 0 ? classes.error : ''}
-			/>
+			{type !== 'textarea' && (
+				<input
+					id={name}
+					name={name}
+					type={type}
+					placeholder={placeholder}
+					defaultValue={defaultValue}
+					className={errors?.length > 0 ? classes.error : ''}
+				/>
+			)}
+
+			{type === 'textarea' && (
+				<textarea
+					id={name}
+					name={name}
+					placeholder={placeholder}
+					defaultValue={defaultValue}
+					className={errors?.length > 0 ? classes.error : ''}
+				/>
+			)}
 			{errors && <InputErrorList errors={errors} />}
 		</div>
 	);
