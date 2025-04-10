@@ -3,7 +3,7 @@ import InputErrorList from './InputErrorList';
 import classes from './Select.module.scss';
 
 export default function Select({ name, options, defaultValue, errors }) {
-	const [selected, setSelected] = useState('customer');
+	const [selected, setSelected] = useState(defaultValue);
 
 	useEffect(() => {
 		setSelected(defaultValue);
