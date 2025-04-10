@@ -7,7 +7,7 @@ export default function Select({ name, options, defaultValue, errors }) {
 
 	useEffect(() => {
 		setSelected(defaultValue);
-	}, [errors]);
+	}, [errors, defaultValue]);
 
 	return (
 		<>
